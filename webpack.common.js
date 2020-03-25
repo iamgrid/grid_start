@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
 	entry: {
@@ -9,15 +10,12 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: "./src/index.template.html",
 			title: "grid.start"
-		})
+		}),
+		new CopyPlugin([
+			{ from: "src/wallpapers", to: "wallpapers" },
+			{ from: "src/export_json.php", to: "export_json.php" }
+		])
 	],
-	output: {
-		filename: "[name]-[hash].min.js",
-		chunkFilename: "[name]-[hash].chunk.js",
-		path: path.resolve(__dirname, "dist"),
-		hashDigestLength: 8
-	},
-	mode: "production",
 	devtool: "source-map",
 	module: {
 		rules: [
