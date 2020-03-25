@@ -18,5 +18,13 @@ module.exports = {
 		hashDigestLength: 8
 	},
 	mode: "production",
-	devtool: "source-map"
+	devtool: "source-map",
+	module: {
+		rules: [
+			{
+				test: /\.css$/i,
+				use: ["style-loader", "css-loader"]
+			}
+		]
+	}
 };

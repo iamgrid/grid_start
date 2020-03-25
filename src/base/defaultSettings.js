@@ -1,0 +1,71 @@
+export const defaultSettings = {
+	currentTheme: {
+		"based-on-theme": "0",
+		"theme-modified": false,
+		"theme-settings": {
+			"theme-name": "Default",
+			"background-image": "none",
+			"background-gradient": true,
+			"background-color-1": "#515557",
+			"background-color-2": "#0c0c0d",
+			"cssv-title-text-color": "#101010",
+			"cssv-title-text-color-hl": "#ffe96c",
+			"cssv-title-text-shadow": "rgba(117, 117, 117, 0.6)",
+			"cssv-subtitle-text-color": "#131313",
+			"cssv-subtitle-text-color-hl": "#ffdf9e",
+			"cssv-separator-color": "rgba(255, 255, 255, 0.15)",
+			"cssv-separator-color-hl": "rgba(255, 233, 108, 0.6)",
+			"cssv-link-text-color": "#eee",
+			"cssv-link-text-color-hl": "#ffffff",
+			"cssv-link-text-shadow": "rgba(255, 255, 255, 0.9)",
+			"cssv-link-background": "rgba(255, 255, 255, 0)",
+			"cssv-link-background-hl": "rgba(255, 255, 255, 0.1)",
+			"cssv-scrollbar-track": "rgba(26, 26, 26, 0.5)",
+			"cssv-scrollbar-thumb": "rgba(73, 73, 73, 1)"
+		}
+	},
+	themes: {
+		"0": {
+			"theme-name": "Default",
+			"background-image": "none",
+			"background-gradient": true,
+			"background-color-1": "#515557",
+			"background-color-2": "#0c0c0d",
+			"cssv-title-text-color": "#101010",
+			"cssv-title-text-color-hl": "#ffe96c",
+			"cssv-title-text-shadow": "rgba(117, 117, 117, 0.6)",
+			"cssv-subtitle-text-color": "#131313",
+			"cssv-subtitle-text-color-hl": "#ffdf9e",
+			"cssv-separator-color": "rgba(255, 255, 255, 0.15)",
+			"cssv-separator-color-hl": "rgba(255, 233, 108, 0.6)",
+			"cssv-link-text-color": "#eee",
+			"cssv-link-text-color-hl": "#ffffff",
+			"cssv-link-text-shadow": "rgba(255, 255, 255, 0.9)",
+			"cssv-link-background": "rgba(255, 255, 255, 0)",
+			"cssv-link-background-hl": "rgba(255, 255, 255, 0.1)",
+			"cssv-scrollbar-track": "rgba(26, 26, 26, 0.5)",
+			"cssv-scrollbar-thumb": "rgba(73, 73, 73, 1)"
+		},
+		"5d0d9cba-56d1-41e8-89fa-7770994a3dbd": {
+			"theme-name": "Default 2",
+			"background-image": "colors-dim",
+			"background-color-1": "#515557",
+			"background-gradient": false,
+			"background-color-2": "#0c0c0d",
+			"cssv-title-text-color": "#101010",
+			"cssv-title-text-color-hl": "#ffe96c",
+			"cssv-title-text-shadow": "rgba(117, 117, 117, 0.6)",
+			"cssv-subtitle-text-color": "#131313",
+			"cssv-subtitle-text-color-hl": "#ffdf9e",
+			"cssv-separator-color": "rgba(255, 255, 255, 0.15)",
+			"cssv-separator-color-hl": "rgba(255, 233, 108, 0.6)",
+			"cssv-link-text-color": "#eee",
+			"cssv-link-text-color-hl": "#ffffff",
+			"cssv-link-text-shadow": "rgba(255, 255, 255, 0.9)",
+			"cssv-link-background": "rgba(255, 255, 255, 0)",
+			"cssv-link-background-hl": "rgba(255, 255, 255, 0.1)",
+			"cssv-scrollbar-track": "rgba(26, 26, 26, 0.5)",
+			"cssv-scrollbar-thumb": "rgba(73, 73, 73, 1)"
+		}
+	}
+};

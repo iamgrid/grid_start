@@ -1,12 +1,14 @@
 import Picker from "vanilla-picker";
-import { v4 as uuidv4 } from "uuid";
+import { controlFactory } from "./settings/controlFactory.js";
+import { post } from "./settings/post.js";
+import { themeManager } from "./settings/themeManager.js";
 
 const gStartSettings = {
 	catchEnter(event) {
 		const key = event.keyCode || event.which;
 		if (key === 13) {
 			if (event.target.id === "save-as-form__name-input") {
-				gStartSettings.saveThemeAsActual();
+				themeManager.saveThemeAsActual();
 			}
 		}
 	},
@@ -42,90 +44,9 @@ const gStartSettings = {
 		document.getElementById("uncommitted_disp").innerHTML = re;
 	},
 
-	saveTheme() {
-		if (confirm("Are you sure you'd like to overwrite the current theme?")) {
-			const basedOn = gStartBase.settings.currentTheme["based-on-theme"];
-			Object.assign(
-				gStartBase.settings.themes[basedOn],
-				gStartBase.settings.currentTheme["theme-settings"]
-			);
-			console.log("attempted to save... " + basedOn);
-			// console.log(gStartBase.settings);
-
-			this.themeHasBeenModified(false);
-			this.unCommittedChanges(true);
-		}
-	},
-
-	saveThemeAs() {
-		document.getElementById("save-as-form").style.display = "grid";
-		document.getElementById("save-as-form__name-input").focus();
-	},
-
-	cancelSaveThemeAs() {
-		document.getElementById("save-as-form").style.display = "none";
-		document.getElementById("save-as-form__name-input").value = "";
-	},
-
-	saveThemeAsActual() {
-		const newThemeName = document.getElementById("save-as-form__name-input")
-			.value;
-
-		let newThemeId = uuidv4();
-
-		console.log(`saving ${newThemeName} to ${newThemeId}...`);
-
-		gStartBase.settings.currentTheme["theme-settings"][
-			"theme-name"
-		] = newThemeName;
-
-		gStartBase.settings.themes[newThemeId] = {};
-		Object.assign(
-			gStartBase.settings.themes[newThemeId],
-			gStartBase.settings.currentTheme["theme-settings"]
-		);
-
-		gStartBase.settings.currentTheme["based-on-theme"] = String(newThemeId);
-		this.unCommittedChanges();
-		this.themeHasBeenModified(false);
-
-		this.renderThemeSelector();
-
-		document.getElementById("current_theme_disp").innerHTML =
-			gStartBase.settings.currentTheme["theme-settings"]["theme-name"];
-
-		document.getElementById("save-as-form").style.display = "none";
-		document.getElementById("save-as-form__name-input").value = "";
-	},
-
-	deleteTheme() {
-		if (confirm("Are you sure you'd like to delete the current theme?")) {
-			if (gStartBase.settings.currentTheme["based-on-theme"] === "0") {
-				alert("Sorry, the default theme can not be deleted.");
-				return null;
-			}
-			const themeToDelete = gStartBase.settings.currentTheme["based-on-theme"];
-
-			delete gStartBase.settings.themes[themeToDelete];
-
-			Object.assign(
-				gStartBase.settings.currentTheme["theme-settings"],
-				gStartBase.settings.themes["0"]
-			);
-
-			gStartBase.settings.currentTheme["based-on-theme"] = "0";
-			gStartBase.settings.currentTheme["theme-modified"] = false;
-			this.unCommittedChanges();
-
-			this.renderThemeSelector();
-
-			gStartBase.showcurrentTheme();
-		}
-	},
-
 	exportSettings() {
 		const settingsStringified = JSON.stringify(gStartBase.settings);
-		this.post("export_json.php", { export: settingsStringified });
+		post("export_json.php", { export: settingsStringified });
 	},
 
 	previewColor(itemName, newColor) {
@@ -233,23 +154,6 @@ const gStartSettings = {
 		return `rgba(${re.join(", ")})`;
 	},
 
-	CssVs: {
-		"title-text-color": "title",
-		"title-text-color-hl": "title (highlighted)",
-		"title-text-shadow": "title shadow",
-		"subtitle-text-color": "subtitle",
-		"subtitle-text-color-hl": "subtitle (highlighted)",
-		"separator-color": "separator",
-		"separator-color-hl": "separator (highlighted)",
-		"link-text-color": "link",
-		"link-text-color-hl": "link (highlighted)",
-		"link-text-shadow": "link shadow",
-		"link-background": "link background",
-		"link-background-hl": "link background (highlighted)",
-		"scrollbar-track": "scrollbar track",
-		"scrollbar-thumb": "scrollbar thumb"
-	},
-
 	colorPickerObjects: {},
 
 	renderSettings() {
@@ -282,10 +186,10 @@ const gStartSettings = {
 		const controls = [];
 
 		controls.push(
-			this.controlFactory.createControl("wall", "wallpaper", "select", "")
+			controlFactory.createControl("wall", "wallpaper", "select", "")
 		);
 		controls.push(
-			this.controlFactory.createControl(
+			controlFactory.createControl(
 				"background-gradient",
 				"background gradient",
 				"checkbox",
@@ -293,7 +197,7 @@ const gStartSettings = {
 			)
 		);
 		controls.push(
-			this.controlFactory.createControl(
+			controlFactory.createControl(
 				"background-color-1",
 				"background color 1",
 				"color",
@@ -301,7 +205,7 @@ const gStartSettings = {
 			)
 		);
 		controls.push(
-			this.controlFactory.createControl(
+			controlFactory.createControl(
 				"background-color-2",
 				"background color 2",
 				"color",
@@ -309,10 +213,25 @@ const gStartSettings = {
 			)
 		);
 
-		Object.entries(this.CssVs).forEach(([key, value]) => {
-			controls.push(
-				this.controlFactory.createControl(key, value, "color", "cssv")
-			);
+		const cssVs = {
+			"title-text-color": "title",
+			"title-text-color-hl": "title (highlighted)",
+			"title-text-shadow": "title shadow",
+			"subtitle-text-color": "subtitle",
+			"subtitle-text-color-hl": "subtitle (highlighted)",
+			"separator-color": "separator",
+			"separator-color-hl": "separator (highlighted)",
+			"link-text-color": "link",
+			"link-text-color-hl": "link (highlighted)",
+			"link-text-shadow": "link shadow",
+			"link-background": "link background",
+			"link-background-hl": "link background (highlighted)",
+			"scrollbar-track": "scrollbar track",
+			"scrollbar-thumb": "scrollbar thumb"
+		};
+
+		Object.entries(cssVs).forEach(([key, value]) => {
+			controls.push(controlFactory.createControl(key, value, "color", "cssv"));
 		});
 
 		const renderedControls = controls.map(item => item.completeRender());
@@ -344,28 +263,20 @@ const gStartSettings = {
 			""
 		);
 
-		document.getElementById("deleteButton").onclick = this.deleteTheme.bind(
-			this
-		);
-		document.getElementById("saveButton").onclick = this.saveTheme.bind(this);
-		document.getElementById("saveAsButton").onclick = this.saveThemeAs.bind(
-			this
-		);
-		document.getElementById("exportButton").onclick = this.exportSettings.bind(
-			this
-		);
+		document.getElementById("deleteButton").onclick = themeManager.deleteTheme;
+		document.getElementById("saveButton").onclick = themeManager.saveTheme;
+		document.getElementById("saveAsButton").onclick = themeManager.saveThemeAs;
+		document.getElementById("exportButton").onclick = this.exportSettings;
 		document.getElementById(
 			"commitButton"
 		).onclick = gStartBase.commitToStorage.bind(gStartBase);
 		document.getElementById(
 			"save-as-form__name-input"
 		).onkeyup = this.catchEnter;
-		document.getElementById(
-			"saveThemeAsActualButton"
-		).onclick = this.saveThemeAsActual.bind(this);
-		document.getElementById(
-			"cancelSaveThemeAsButton"
-		).onclick = this.cancelSaveThemeAs;
+		document.getElementById("saveThemeAsActualButton").onclick =
+			themeManager.saveThemeAsActual;
+		document.getElementById("cancelSaveThemeAsButton").onclick =
+			themeManager.cancelSaveThemeAs;
 
 		this.renderThemeSelector();
 
@@ -422,180 +333,11 @@ const gStartSettings = {
 
 		document.getElementById("theme_selector_wrapper").innerHTML = re.join("");
 
-		document.getElementById(
-			"settings__select-theme"
-		).onchange = this.activateTheme.bind(this);
+		document.getElementById("settings__select-theme").onchange =
+			themeManager.activateTheme;
 	},
 
-	colorPickers: [],
-
-	controlFactory: {
-		genericControl: {
-			completeRender() {
-				let re = [];
-
-				re.push("\t\t\t<div class='controls'>\n");
-				re.push(
-					`\t\t\t\t<div class='controls__label'>${this.dispName}</div>\n`
-				);
-
-				try {
-					re.push(this.render());
-				} catch (error) {
-					console.log(error);
-				}
-
-				re.push("\t\t\t</div>\n");
-
-				return re.join("");
-			},
-			render() {
-				return "Default control";
-			}
-		},
-
-		colorControl: {
-			type: "color",
-			render() {
-				let cssVarName = "";
-				if (this.subType === "bg") {
-					cssVarName = "background-color-" + this.cName.substr(-1);
-				} else if (this.subType === "cssv") {
-					cssVarName = this.cName;
-				}
-
-				gStartSettings.colorPickers.push(cssVarName);
-
-				return `<div class='color-preview ${"color-preview__" +
-					cssVarName}' id='${"color-preview__" + cssVarName}'></div>`;
-			}
-		},
-
-		selectControl: {
-			type: "select",
-			render() {
-				let re = [];
-
-				re.push(
-					`<select id='controls__select-wallpaper' class='controls__select-wallpaper' onchange='gStartBase.changeWallpaper(event)'>\n`
-				);
-				Object.entries(gStartBase.wallpapers).map(([key]) => {
-					let selected = "";
-					if (
-						gStartBase.settings.currentTheme["theme-settings"][
-							"background-image"
-						] === key
-					)
-						selected = "selected";
-					re.push(`\t<option value='${key}' ${selected}>${key}</option>\n`);
-				});
-				re.push("</select>\n");
-
-				return re.join("");
-			}
-		},
-
-		checkboxControl: {
-			type: "checkbox",
-			render() {
-				let re = [];
-
-				let isChecked = "";
-				if (gStartBase.settings.currentTheme["theme-settings"][this.cName])
-					isChecked = " checked='true'";
-				re.push(
-					`<input type='checkbox' id='check_gradient' onchange='gStartBase.changeWallpaper(event)'${isChecked} />\n`
-				);
-
-				return re.join("");
-			}
-		},
-
-		createControl(cName = "", dispName = "", type = "", subType = "") {
-			const assembledControl = Object.create(this.genericControl);
-			Object.assign(assembledControl, {
-				cName: cName,
-				dispName: dispName,
-				subType: subType
-			});
-
-			if (type === "color") {
-				Object.assign(assembledControl, this.colorControl);
-			} else if (type === "select") {
-				Object.assign(assembledControl, this.selectControl);
-			} else if (type === "checkbox") {
-				Object.assign(assembledControl, this.checkboxControl);
-			}
-
-			return assembledControl;
-		}
-	},
-
-	activateTheme(event) {
-		const req = event.target.value;
-
-		console.log(`loading theme ${req} ...`);
-
-		const activateThemeProper = () => {
-			gStartBase.settings.currentTheme["based-on-theme"] = req;
-			gStartBase.settings.currentTheme["theme-modified"] = false;
-			Object.assign(
-				gStartBase.settings.currentTheme["theme-settings"],
-				gStartBase.settings.themes[req]
-			);
-
-			gStartBase.showcurrentTheme();
-
-			this.unCommittedChanges();
-
-			console.log(`loaded ${req}.`);
-		};
-
-		if (gStartBase.settings.currentTheme["theme-modified"]) {
-			if (
-				window.confirm(
-					"Your current theme has unsaved changes. Continue anyway?"
-				)
-			) {
-				activateThemeProper();
-				this.themeHasBeenModified(false);
-			} else {
-				document.getElementById(event.target.id).value =
-					gStartBase.settings.currentTheme["based-on-theme"];
-			}
-		} else {
-			activateThemeProper();
-		}
-	},
-
-	/**
-	 * sends a request to the specified url from a form. this will change the window location.
-	 * @param {string} path the path to send the post request to
-	 * @param {object} params the paramiters to add to the url
-	 * @param {string} [method=post] the method to use on the form
-	 */
-
-	post(path, params, method = "post") {
-		// The rest of this code assumes you are not using a library.
-		// It can be made less wordy if you use one.
-		const form = document.createElement("form");
-		form.method = method;
-		form.action = path;
-
-		for (const key in params) {
-			if (params.hasOwnProperty(key)) {
-				const hiddenField = document.createElement("input");
-				hiddenField.type = "hidden";
-				hiddenField.name = key;
-				hiddenField.value = params[key];
-
-				form.appendChild(hiddenField);
-			}
-		}
-
-		document.body.appendChild(form);
-		form.submit();
-	}
+	colorPickers: []
 };
 
 export default gStartSettings;
