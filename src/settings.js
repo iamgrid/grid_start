@@ -1,7 +1,7 @@
-import Picker from "vanilla-picker";
-import { controlFactory } from "./settings/controlFactory.js";
-import { post } from "./settings/post.js";
-import { themeManager } from "./settings/themeManager.js";
+import { themeManager } from "./settings/themeManager";
+import { controlFactory } from "./settings/controlFactory";
+import { colorManager } from "./settings/colorManager";
+import { post } from "./settings/post";
 
 const gStartSettings = {
 	catchEnter(event) {
@@ -49,119 +49,20 @@ const gStartSettings = {
 		post("export_json.php", { export: settingsStringified });
 	},
 
-	previewColor(itemName, newColor) {
-		const rootEl = document.documentElement;
-		let properColor = "";
-		if (newColor._rgba) {
-			properColor = this.cleanPickerColorValue(newColor._rgba);
-			rootEl.style.setProperty("--" + itemName, properColor);
-			if (itemName.substr(0, 10) === "background") {
-				gStartBase.changeWallpaper(["colorPreview", itemName, properColor]);
-			}
-
-			// console.log(gStartSettings.colorPickerObjects[itemName].settings.color);
-		}
-	},
-
-	pickerIsOpen: "",
-	pickerOpened(itemName, color) {
-		this.pickerIsOpen = itemName;
-	},
-
 	onWindowResize() {
-		gStartSettings.adjustPickerPositions();
+		colorManager.adjustPickerPositions();
 	},
 
-	adjustPickerPositions() {
-		if (this.pickerIsOpen !== "") {
-			this.colorPickerObjects[this.pickerIsOpen].closeHandler();
-			this.pickerIsOpen = "";
-		}
-
-		this.colorPickers.forEach(itemName => {
-			const cPreviewName = `color-preview__${itemName}`;
-			const cPreviewDiv = document.getElementById(cPreviewName);
-
-			if (cPreviewDiv.offsetLeft + 360 > window.innerWidth) {
-				// console.log(itemName, "picker moved to left");
-				this.colorPickerObjects[itemName].movePopup({ popup: "left" }, false);
-			} else {
-				// console.log(itemName, "picker moved to right");
-				this.colorPickerObjects[itemName].movePopup({ popup: "right" }, false);
-			}
-		});
+	updatePickerStarterColors() {
+		colorManager.updatePickerStarterColors();
 	},
-
-	pickerTimeouts: {},
-	pickerClosed(itemName, newColor) {
-		this.pickerIsOpen = "";
-
-		this.pickerTimeouts[itemName] = window.setTimeout(
-			() => this.restoreColor(itemName),
-			300
-		);
-	},
-
-	restoreColor(itemName) {
-		// console.log("restoring " + itemName + " color");
-		const rootEl = document.documentElement;
-
-		let settingsName = itemName;
-		if (itemName.substr(0, 10) !== "background")
-			settingsName = "cssv-" + itemName;
-
-		const settingsValue =
-			gStartBase.settings.currentTheme["theme-settings"][settingsName];
-
-		rootEl.style.setProperty("--" + itemName, settingsValue);
-		this.colorPickerObjects[itemName].setColor(settingsValue);
-		if (itemName.substr(0, 10) === "background") {
-			gStartBase.changeWallpaper();
-		}
-	},
-
-	commitColor(itemName, newColor) {
-		window.clearTimeout(this.pickerTimeouts[itemName]);
-
-		let properColor = "";
-		let settingsName = itemName;
-		if (newColor._rgba) {
-			properColor = this.cleanPickerColorValue(newColor._rgba);
-			if (itemName.substr(0, 10) !== "background")
-				settingsName = "cssv-" + itemName;
-
-			// console.log(`commiting ${properColor} to ${settingsName}`);
-			gStartBase.settings.currentTheme["theme-settings"][
-				settingsName
-			] = properColor;
-
-			this.themeHasBeenModified();
-			this.unCommittedChanges();
-
-			if (itemName.substr(0, 10) === "background") {
-				gStartBase.changeWallpaper();
-			}
-		}
-	},
-
-	cleanPickerColorValue(raw) {
-		const re = raw.map(item => {
-			if (String(item).includes("."))
-				return Number.parseFloat(item).toPrecision(2);
-			return item;
-		});
-
-		return `rgba(${re.join(", ")})`;
-	},
-
-	colorPickerObjects: {},
 
 	renderSettings() {
 		let re = [];
 
 		re.push("<div class='settings__controls'>\n");
 
-		// Load theme section
+		// Theme loader html
 
 		re.push("<div class='sp_section'>\n");
 		re.push("\t<div class='settings__section-title'>Load theme</div>\n");
@@ -171,7 +72,7 @@ const gStartSettings = {
 		re.push("\t\t</div>\n");
 		re.push("</div>\n");
 
-		// Theme editor section
+		// Theme editor section html
 
 		re.push("<div class='sp_section'>\n");
 		re.push(
@@ -182,6 +83,8 @@ const gStartSettings = {
 			}</span><span class='settings__section-title-disp' id='uncommitted_disp'></span></div>\n`
 		);
 		re.push("\t\t<div class='settings__section-content'>\n");
+
+		// Control html
 
 		const controls = [];
 
@@ -241,6 +144,8 @@ const gStartSettings = {
 		re.push("</div>\n"); // /sp_section
 		re.push("</div>\n"); // /settings__controls
 
+		// Button html
+
 		re.push(
 			`<div class='settings-buttons'><div class='settings-buttons__inner'>
 				<a class='ibutton settings-buttons__ibutton' id='deleteButton'>Delete Theme</a>
@@ -249,7 +154,9 @@ const gStartSettings = {
 				<a class='ibutton settings-buttons__ibutton' id='exportButton'>Export Settings</a>
 				<a class='ibutton settings-buttons__ibutton' id='commitButton'>Commit Settings to Storage</a>
 			</div></div>\n`
-		); // settings-buttons
+		);
+
+		// Save as form html
 
 		re.push(
 			`<div class='save-as-form' id='save-as-form'><div class='save-as-form__inner'>
@@ -257,11 +164,15 @@ const gStartSettings = {
 				<a class='ibutton ibutton--preferred' id='saveThemeAsActualButton'>Save</a>
 				<a class='ibutton' id='cancelSaveThemeAsButton'>Cancel</a>
 			</div></div>\n`
-		); // save-as-form
+		);
+
+		// Html insertion
 
 		document.getElementById("settings__inner-container").innerHTML = re.join(
 			""
 		);
+
+		// Button/control bindings
 
 		document.getElementById("deleteButton").onclick = themeManager.deleteTheme;
 		document.getElementById("saveButton").onclick = themeManager.saveTheme;
@@ -280,38 +191,12 @@ const gStartSettings = {
 
 		this.renderThemeSelector();
 
-		// generate color pickers
+		// Color picker generation
 
 		if (!gStartBase.settingsOpenedBefore) {
-			this.colorPickers.forEach(item => {
-				const divName = item;
-				let settingsName = "cssv-" + divName;
-				if (divName.substr(0, 10) === "background") {
-					settingsName = divName;
-				}
-				const currentColor =
-					gStartBase.settings.currentTheme["theme-settings"][settingsName];
-
-				const pickerSettings = {
-					parent: document.querySelector("#color-preview__" + divName),
-					color: currentColor,
-					editor: true,
-					popup: "right",
-					onChange: color => gStartSettings.previewColor(divName, color),
-					onDone: color => gStartSettings.commitColor(divName, color),
-					onOpen: color => gStartSettings.pickerOpened(divName, color),
-					onClose: color => gStartSettings.pickerClosed(divName, color)
-				};
-
-				this.colorPickerObjects[divName] = new Picker(pickerSettings);
-			});
-
-			setTimeout(() => gStartSettings.adjustPickerPositions(), 300);
-
+			colorManager.generatePickerInstances();
 			gStartBase.settingsOpenedBefore = true;
 		}
-
-		// console.log(this.colorPickerObjects);
 
 		document.getElementById("settings__select-theme").focus();
 	},
@@ -335,9 +220,7 @@ const gStartSettings = {
 
 		document.getElementById("settings__select-theme").onchange =
 			themeManager.activateTheme;
-	},
-
-	colorPickers: []
+	}
 };
 
 export default gStartSettings;

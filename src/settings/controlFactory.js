@@ -1,4 +1,5 @@
 import { wallpapers } from "../base/wallpapers.js";
+import { colorManager } from "./colorManager.js";
 
 export const controlFactory = {
 	genericControl: {
@@ -33,7 +34,7 @@ export const controlFactory = {
 				cssVarName = this.cName;
 			}
 
-			gStartSettings.colorPickers.push(cssVarName);
+			colorManager.colorPickers.push(cssVarName);
 
 			return `<div class='color-preview ${"color-preview__" +
 				cssVarName}' id='${"color-preview__" + cssVarName}'></div>`;

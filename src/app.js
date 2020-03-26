@@ -1,5 +1,5 @@
 "use strict";
-import gStartBase from "./base.js";
+import gStartBase from "./base";
 import css from "./gstart.css";
 
 function init() {

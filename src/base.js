@@ -1,8 +1,10 @@
-import { defaultSettings } from "./base/defaultSettings.js";
-import { wallpapers } from "./base/wallpapers.js";
+import { defaultSettings } from "./base/defaultSettings";
+import { wallpapers } from "./base/wallpapers";
 
 const gStartBase = {
 	settings: {},
+	settingsPanelOpen: false,
+	settingsOpenedBefore: false,
 
 	/* link opener function */
 
@@ -88,11 +90,11 @@ const gStartBase = {
 	showcurrentTheme() {
 		const settings = this.settings.currentTheme["theme-settings"];
 
-		// set background
+		// Set background
 
 		this.changeWallpaper();
 
-		// set css variables
+		// Set css variables
 
 		const rootEl = document.documentElement;
 
@@ -111,7 +113,7 @@ const gStartBase = {
 			settings["background-color-2"]
 		);
 
-		// update controls if settings are up
+		// Update controls if settings are up
 
 		if (this.settingsOpenedBefore) {
 			document.getElementById("current_theme_disp").innerHTML =
@@ -122,24 +124,14 @@ const gStartBase = {
 			document.getElementById("check_gradient").checked =
 				settings["background-gradient"];
 
-			// update picker opener colors
+			// Update picker starter colors
 
-			gStartSettings.colorPickers.forEach(itemName => {
-				let settingsName = itemName;
-				if (itemName.substr(0, 10) !== "background")
-					settingsName = "cssv-" + itemName;
-
-				const settingsValue = this.settings.currentTheme["theme-settings"][
-					settingsName
-				];
-
-				gStartSettings.colorPickerObjects[itemName].setColor(settingsValue);
-			});
+			if (typeof gStartSettings !== "undefined") {
+				gStartSettings.updatePickerStarterColors();
+			}
 		}
 	},
 
-	settingsPanelOpen: false,
-	settingsOpenedBefore: false,
 	toggleSettingsPanel() {
 		if (!this.settingsPanelOpen) {
 			document.getElementById("settings").style.display = "block";
