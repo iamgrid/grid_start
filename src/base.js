@@ -134,6 +134,8 @@ const gStartBase = {
 
 	toggleSettingsPanel() {
 		if (!this.settingsPanelOpen) {
+			// Currently closed
+
 			document.getElementById("settings").style.display = "block";
 			this.settingsPanelOpen = true;
 			if (!this.settingsOpenedBefore) {
@@ -154,12 +156,17 @@ const gStartBase = {
 			} else {
 				document.getElementById("settings__select-theme").focus();
 			}
+
 			document.getElementById("toggle-settings__text").innerHTML =
 				"Close Panel";
 			document
 				.getElementById("toggle-settings__link")
 				.classList.add("toggle-settings__link--open");
+
+			window.scrollTo(0, 0);
 		} else {
+			// Currently open
+
 			document.getElementById("settings").style.display = "none";
 			this.settingsPanelOpen = false;
 			document.getElementById("toggle-settings__text").innerHTML = "Settings";

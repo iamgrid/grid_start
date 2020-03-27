@@ -7,7 +7,9 @@ export const controlFactory = {
 			let re = [];
 
 			re.push("\t\t\t<div class='controls'>\n");
-			re.push(`\t\t\t\t<div class='controls__label'>${this.dispName}</div>\n`);
+			re.push(
+				`\t\t\t\t<div class='controls__label'>${this.displayName}</div>\n`
+			);
 
 			try {
 				re.push(this.render());
@@ -29,9 +31,9 @@ export const controlFactory = {
 		render() {
 			let cssVarName = "";
 			if (this.subType === "bg") {
-				cssVarName = "background-color-" + this.cName.substr(-1);
+				cssVarName = "background-color-" + this.controlId.substr(-1);
 			} else if (this.subType === "cssv") {
-				cssVarName = this.cName;
+				cssVarName = this.controlId;
 			}
 
 			colorManager.colorPickers.push(cssVarName);
@@ -71,7 +73,7 @@ export const controlFactory = {
 			let re = [];
 
 			let isChecked = "";
-			if (gStartBase.settings.currentTheme["theme-settings"][this.cName])
+			if (gStartBase.settings.currentTheme["theme-settings"][this.controlId])
 				isChecked = " checked='true'";
 			re.push(
 				`<input type='checkbox' id='check_gradient' onchange='gStartBase.changeWallpaper(event)'${isChecked} />\n`
@@ -81,11 +83,11 @@ export const controlFactory = {
 		}
 	},
 
-	createControl(cName = "", dispName = "", type = "", subType = "") {
+	createControl(controlId = "", displayName = "", type = "", subType = "") {
 		const assembledControl = Object.create(this.genericControl);
 		Object.assign(assembledControl, {
-			cName: cName,
-			dispName: dispName,
+			controlId: controlId,
+			displayName: displayName,
 			subType: subType
 		});
 

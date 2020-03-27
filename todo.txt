@@ -1,0 +1,7 @@
+TODO:
+
+x Scroll to top when settings have been opened
+X Fix factory prop names
+- Disentangle colorPickers from the factory
+- Rename colorPickerObjects to pickerInstances
+- Fix devtools notices in Chrome

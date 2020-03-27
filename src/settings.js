@@ -99,42 +99,56 @@ const gStartSettings = {
 				""
 			)
 		);
-		controls.push(
-			controlFactory.createControl(
-				"background-color-1",
-				"background color 1",
-				"color",
-				"bg"
-			)
-		);
-		controls.push(
-			controlFactory.createControl(
-				"background-color-2",
-				"background color 2",
-				"color",
-				"bg"
-			)
-		);
 
-		const cssVs = {
-			"title-text-color": "title",
-			"title-text-color-hl": "title (highlighted)",
-			"title-text-shadow": "title shadow",
-			"subtitle-text-color": "subtitle",
-			"subtitle-text-color-hl": "subtitle (highlighted)",
-			"separator-color": "separator",
-			"separator-color-hl": "separator (highlighted)",
-			"link-text-color": "link",
-			"link-text-color-hl": "link (highlighted)",
-			"link-text-shadow": "link shadow",
-			"link-background": "link background",
-			"link-background-hl": "link background (highlighted)",
-			"scrollbar-track": "scrollbar track",
-			"scrollbar-thumb": "scrollbar thumb"
+		const colorControlNames = {
+			"background-color-1": {
+				displayName: "background color 1",
+				subType: "bg"
+			},
+			"background-color-2": {
+				displayName: "background color 2",
+				subType: "bg"
+			},
+			"title-text-color": { displayName: "title", subType: "cssv" },
+			"title-text-color-hl": {
+				displayName: "title (highlighted)",
+				subType: "cssv"
+			},
+			"title-text-shadow": { displayName: "title shadow", subType: "cssv" },
+			"subtitle-text-color": { displayName: "subtitle", subType: "cssv" },
+			"subtitle-text-color-hl": {
+				displayName: "subtitle (highlighted)",
+				subType: "cssv"
+			},
+			"separator-color": { displayName: "separator", subType: "cssv" },
+			"separator-color-hl": {
+				displayName: "separator (highlighted)",
+				subType: "cssv"
+			},
+			"link-text-color": { displayName: "link", subType: "cssv" },
+			"link-text-color-hl": {
+				displayName: "link (highlighted)",
+				subType: "cssv"
+			},
+			"link-text-shadow": { displayName: "link shadow", subType: "cssv" },
+			"link-background": { displayName: "link background", subType: "cssv" },
+			"link-background-hl": {
+				displayName: "link background (highlighted)",
+				subType: "cssv"
+			},
+			"scrollbar-track": { displayName: "scrollbar track", subType: "cssv" },
+			"scrollbar-thumb": { displayName: "scrollbar thumb", subType: "cssv" }
 		};
 
-		Object.entries(cssVs).forEach(([key, value]) => {
-			controls.push(controlFactory.createControl(key, value, "color", "cssv"));
+		Object.entries(colorControlNames).forEach(([key, value]) => {
+			controls.push(
+				controlFactory.createControl(
+					key,
+					value.displayName,
+					"color",
+					value.subType
+				)
+			);
 		});
 
 		const renderedControls = controls.map(item => item.completeRender());
