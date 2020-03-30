@@ -1,5 +1,4 @@
 import { wallpapers } from "../base/wallpapers.js";
-import { colorManager } from "./colorManager.js";
 
 export const controlFactory = {
 	genericControl: {
@@ -35,8 +34,6 @@ export const controlFactory = {
 			} else if (this.subType === "cssv") {
 				cssVarName = this.controlId;
 			}
-
-			colorManager.colorPickers.push(cssVarName);
 
 			return `<div class='color-preview ${"color-preview__" +
 				cssVarName}' id='${"color-preview__" + cssVarName}'></div>`;

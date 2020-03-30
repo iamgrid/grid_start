@@ -2,6 +2,6 @@ TODO:
 
 x Scroll to top when settings have been opened
 X Fix factory prop names
-- Disentangle colorPickers from the factory
-- Rename colorPickerObjects to pickerInstances
+X Disentangle colorPickers from the factory
+X Move the functionality of colorPickerObjects and pickerTimeouts to props in the colorControls object instead
 - Fix devtools notices in Chrome

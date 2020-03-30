@@ -2,13 +2,78 @@ import Picker from "vanilla-picker";
 
 export const colorManager = {
 	pickerIsOpen: "",
-	pickerTimeouts: {},
-	colorPickers: [],
-	colorPickerObjects: {},
+
+	// prettier-ignore
+	colorControls: {
+		"background-color-1": {
+			displayName: "background color 1",
+			subType: "bg"
+		},
+		"background-color-2": {
+			displayName: "background color 2",
+			subType: "bg"
+		},
+		"title-text-color": { 
+			displayName: "title", 
+			subType: "cssv" 
+		},
+		"title-text-color-hl": {
+			displayName: "title (highlighted)",
+			subType: "cssv"
+		},
+		"title-text-shadow": { 
+			displayName: "title shadow", 
+			subType: "cssv" 
+		},
+		"subtitle-text-color": { 
+			displayName: "subtitle", 
+			subType: "cssv" 
+		},
+		"subtitle-text-color-hl": {
+			displayName: "subtitle (highlighted)",
+			subType: "cssv"
+		},
+		"separator-color": { 
+			displayName: "separator", 
+			subType: "cssv" 
+		},
+		"separator-color-hl": {
+			displayName: "separator (highlighted)",
+			subType: "cssv"
+		},
+		"link-text-color": { 
+			displayName: "link", 
+			subType: "cssv"
+		},
+		"link-text-color-hl": {
+			displayName: "link (highlighted)",
+			subType: "cssv"
+		},
+		"link-text-shadow": { 
+			displayName: "link shadow", 
+			subType: "cssv" 
+		},
+		"link-background": { 
+			displayName: "link background", 
+			subType: "cssv" 
+		},
+		"link-background-hl": {
+			displayName: "link background (highlighted)",
+			subType: "cssv"
+		},
+		"scrollbar-track": { 
+			displayName: "scrollbar track", 
+			subType: "cssv" 
+		},
+		"scrollbar-thumb": { 
+			displayName: "scrollbar thumb", 
+			subType: "cssv" 
+		}
+	},
 
 	generatePickerInstances() {
-		this.colorPickers.forEach(item => {
-			const divName = item;
+		Object.keys(this.colorControls).forEach(itemName => {
+			const divName = itemName;
 			let settingsName = "cssv-" + divName;
 			if (divName.substr(0, 10) === "background") {
 				settingsName = divName;
@@ -27,7 +92,7 @@ export const colorManager = {
 				onClose: color => this.pickerClosed(divName, color)
 			};
 
-			this.colorPickerObjects[divName] = new Picker(pickerSettings);
+			this.colorControls[divName].pickerInstance = new Picker(pickerSettings);
 		});
 
 		setTimeout(() => this.adjustPickerPositions(), 300);
@@ -53,7 +118,7 @@ export const colorManager = {
 				gStartBase.changeWallpaper(["colorPreview", itemName, properColor]);
 			}
 
-			// console.log(this.colorPickerObjects[itemName].settings.color);
+			// console.log(this.colorControls[itemName].pickerInstance.settings.color);
 		}
 	},
 
@@ -63,20 +128,26 @@ export const colorManager = {
 
 	adjustPickerPositions() {
 		if (this.pickerIsOpen !== "") {
-			this.colorPickerObjects[this.pickerIsOpen].closeHandler();
+			this.colorControls[this.pickerIsOpen].pickerInstance.closeHandler();
 			this.pickerIsOpen = "";
 		}
 
-		this.colorPickers.forEach(itemName => {
+		Object.keys(this.colorControls).forEach(itemName => {
 			const cPreviewName = `color-preview__${itemName}`;
 			const cPreviewDiv = document.getElementById(cPreviewName);
 
 			if (cPreviewDiv.offsetLeft + 360 > window.innerWidth) {
 				// console.log(itemName, "picker moved to left");
-				this.colorPickerObjects[itemName].movePopup({ popup: "left" }, false);
+				this.colorControls[itemName].pickerInstance.movePopup(
+					{ popup: "left" },
+					false
+				);
 			} else {
 				// console.log(itemName, "picker moved to right");
-				this.colorPickerObjects[itemName].movePopup({ popup: "right" }, false);
+				this.colorControls[itemName].pickerInstance.movePopup(
+					{ popup: "right" },
+					false
+				);
 			}
 		});
 	},
@@ -84,7 +155,7 @@ export const colorManager = {
 	pickerClosed(itemName, newColor) {
 		this.pickerIsOpen = "";
 
-		this.pickerTimeouts[itemName] = window.setTimeout(
+		this.colorControls[itemName].timeout = window.setTimeout(
 			() => this.restoreColor(itemName),
 			300
 		);
@@ -102,14 +173,14 @@ export const colorManager = {
 			gStartBase.settings.currentTheme["theme-settings"][settingsName];
 
 		rootEl.style.setProperty("--" + itemName, settingsValue);
-		this.colorPickerObjects[itemName].setColor(settingsValue);
+		this.colorControls[itemName].pickerInstance.setColor(settingsValue);
 		if (itemName.substr(0, 10) === "background") {
 			gStartBase.changeWallpaper();
 		}
 	},
 
 	commitColor(itemName, newColor) {
-		window.clearTimeout(this.pickerTimeouts[itemName]);
+		window.clearTimeout(this.colorControls[itemName].timeout);
 
 		let properColor = "";
 		let settingsName = itemName;
@@ -133,7 +204,7 @@ export const colorManager = {
 	},
 
 	updatePickerStarterColors() {
-		this.colorPickers.forEach(itemName => {
+		Object.keys(this.colorControls).forEach(itemName => {
 			let settingsName = itemName;
 			if (itemName.substr(0, 10) !== "background")
 				settingsName = "cssv-" + itemName;
@@ -141,7 +212,7 @@ export const colorManager = {
 			const settingsValue =
 				gStartBase.settings.currentTheme["theme-settings"][settingsName];
 
-			this.colorPickerObjects[itemName].setColor(settingsValue);
+			this.colorControls[itemName].pickerInstance.setColor(settingsValue);
 		});
 	}
 };
