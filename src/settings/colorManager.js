@@ -74,6 +74,7 @@ export const colorManager = {
 	generatePickerInstances() {
 		Object.keys(this.colorControls).forEach(itemName => {
 			const divName = itemName;
+
 			let settingsName = "cssv-" + divName;
 			if (divName.substr(0, 10) === "background") {
 				settingsName = divName;

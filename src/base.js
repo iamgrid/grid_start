@@ -6,15 +6,11 @@ const gStartBase = {
 	settingsPanelOpen: false,
 	settingsOpenedBefore: false,
 
-	/* link opener function */
-
-	getTarget(url) {
-		let trg = "_blank";
-		if (window.location.hash == "#self") trg = "_self";
-		window.open(url, trg);
+	open(url) {
+		let target = "_blank";
+		if (window.location.hash == "#self") target = "_self";
+		window.open(url, target);
 	},
-
-	/* setting loader/saver functions */
 
 	init() {
 		console.log("initializing...");
@@ -32,8 +28,8 @@ const gStartBase = {
 		console.log("loading settings...");
 		this.settings = JSON.parse(storedSettings);
 
-		console.log("loading current theme...");
-		this.showcurrentTheme();
+		console.log("displaying current theme...");
+		this.showCurrentTheme();
 		// console.log(this.settings);
 	},
 
@@ -46,6 +42,7 @@ const gStartBase = {
 		if (typeof gStartSettings !== "undefined") {
 			gStartSettings.unCommittedChanges(false);
 		}
+		console.log("settings committed to LocalStorage.");
 	},
 
 	changeWallpaper(event = null) {
@@ -87,7 +84,7 @@ const gStartBase = {
 		bodyEl.style.backgroundSize = "cover";
 	},
 
-	showcurrentTheme() {
+	showCurrentTheme() {
 		const settings = this.settings.currentTheme["theme-settings"];
 
 		// Set background

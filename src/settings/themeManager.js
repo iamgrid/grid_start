@@ -14,7 +14,7 @@ export const themeManager = {
 				gStartBase.settings.themes[req]
 			);
 
-			gStartBase.showcurrentTheme();
+			gStartBase.showCurrentTheme();
 
 			gStartSettings.unCommittedChanges();
 
@@ -30,6 +30,7 @@ export const themeManager = {
 				activateThemeProper();
 				gStartSettings.themeHasBeenModified(false);
 			} else {
+				// set theme selector value back to the current theme
 				document.getElementById(event.target.id).value =
 					gStartBase.settings.currentTheme["based-on-theme"];
 			}
@@ -45,7 +46,7 @@ export const themeManager = {
 				gStartBase.settings.themes[basedOn],
 				gStartBase.settings.currentTheme["theme-settings"]
 			);
-			console.log("attempted to save... " + basedOn);
+			console.log(basedOn + "saved.");
 			// console.log(gStartBase.settings);
 
 			gStartSettings.themeHasBeenModified(false);
@@ -115,7 +116,7 @@ export const themeManager = {
 
 			gStartSettings.renderThemeSelector();
 
-			gStartBase.showcurrentTheme();
+			gStartBase.showCurrentTheme();
 		}
 	}
 };

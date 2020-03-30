@@ -4,4 +4,7 @@ x Scroll to top when settings have been opened
 X Fix factory prop names
 X Disentangle colorPickers from the factory
 X Move the functionality of colorPickerObjects and pickerTimeouts to props in the colorControls object instead
-- Fix devtools notices in Chrome
+X Fix devtools notices in Chrome - A: The notice comes from the AdBlockPlus extension, it falls outside the scope of this project. :)
+X Remove style-loader from package.json
+X Extend readme.md
+X Code cleanup
