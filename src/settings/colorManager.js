@@ -71,7 +71,7 @@ export const colorManager = {
 		}
 	},
 
-	generatePickerInstances() {
+	createPickerInstances() {
 		Object.keys(this.colorControls).forEach(itemName => {
 			const divName = itemName;
 

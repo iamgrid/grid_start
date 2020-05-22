@@ -2,6 +2,7 @@ import { wallpapers } from "../base/wallpapers.js";
 
 export const controlFactory = {
 	genericControl: {
+		// prototype object
 		completeRender() {
 			let re = [];
 
@@ -35,8 +36,9 @@ export const controlFactory = {
 				cssVarName = this.controlId;
 			}
 
-			return `<div class='color-preview ${"color-preview__" +
-				cssVarName}' id='${"color-preview__" + cssVarName}'></div>`;
+			return `<div class='color-preview ${
+				"color-preview__" + cssVarName
+			}' id='${"color-preview__" + cssVarName}'></div>`;
 		}
 	},
 

@@ -168,7 +168,7 @@ const gStartSettings = {
 		// Color picker generation
 
 		if (!gStartBase.settingsOpenedBefore) {
-			colorManager.generatePickerInstances();
+			colorManager.createPickerInstances();
 			gStartBase.settingsOpenedBefore = true;
 		}
 
