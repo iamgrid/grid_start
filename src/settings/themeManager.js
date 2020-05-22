@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import { idMaker } from "../utils/idMaker";
 
 export const themeManager = {
 	activateTheme(event) {
@@ -68,7 +68,7 @@ export const themeManager = {
 		const newThemeName = document.getElementById("save-as-form__name-input")
 			.value;
 
-		let newThemeId = uuidv4();
+		let newThemeId = idMaker.create();
 
 		console.log(`saving ${newThemeName} to ${newThemeId}...`);
 
@@ -118,5 +118,5 @@ export const themeManager = {
 
 			gStartBase.showCurrentTheme();
 		}
-	}
+	},
 };

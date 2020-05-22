@@ -1,7 +1,7 @@
 import { themeManager } from "./settings/themeManager";
 import { controlFactory } from "./settings/controlFactory";
 import { colorManager } from "./settings/colorManager";
-import { post } from "./settings/post";
+import { post } from "./utils/post";
 
 const gStartSettings = {
 	catchEnter(event) {
@@ -111,7 +111,7 @@ const gStartSettings = {
 			);
 		});
 
-		const renderedControls = controls.map(item => item.completeRender());
+		const renderedControls = controls.map((item) => item.completeRender());
 		re.push(renderedControls.join(""));
 
 		re.push("\t\t</div>\n"); // /settings__section-content
@@ -194,7 +194,7 @@ const gStartSettings = {
 
 		document.getElementById("settings__select-theme").onchange =
 			themeManager.activateTheme;
-	}
+	},
 };
 
 export default gStartSettings;
