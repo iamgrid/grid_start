@@ -126,12 +126,33 @@ body {
 	margin: 0 auto;
 	padding: 0 var(--page-padding);
 	opacity: 0;
-	transition: opacity 0s;
+	max-height: 0;
+	overflow-y: hidden;
+	transition: opacity 0s, max-height 0s;
 }
 
 .settings--open .settings__inner-container {
 	opacity: 1;
-	transition: opacity 0.25s ease-in 0.25s;
+	max-height: 1200px;
+	transition: opacity 0.2s ease-in 0.3s, max-height linear 0.1s;
+}
+
+@media all and (min-width: 850px) {
+	.settings--open .settings__inner-container {
+		max-height: 600px;
+	}
+}
+
+@media all and (min-width: 1120px) {
+	.settings--open .settings__inner-container {
+		max-height: 400px;
+	}
+}
+
+@media all and (min-width: 1370px) {
+	.settings--open .settings__inner-container {
+		max-height: 300px;
+	}
 }
 
 .settings__loader {
