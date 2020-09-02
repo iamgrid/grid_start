@@ -31,6 +31,7 @@ const gStartBase = {
 		console.log("displaying current theme...");
 		this.showCurrentTheme();
 		// console.log(this.settings);
+		setTimeout(gStartBase.enableCSSTransitions, 300);
 	},
 
 	commitToStorage(event, settingsObj = null) {
@@ -133,18 +134,18 @@ const gStartBase = {
 		if (!this.settingsPanelOpen) {
 			// Currently closed
 
-			document.getElementById("settings").style.display = "block";
+			document.getElementById("settings").classList.add("settings--open");
 			this.settingsPanelOpen = true;
 			if (!this.settingsOpenedBefore) {
 				// dynamic import
 
 				import(/* webpackChunkName: "settings" */ `./settings.js`)
-					.then(gss => {
+					.then((gss) => {
 						window.gStartSettings = gss.default;
 						gStartSettings.renderSettings();
 						window.onresize = gStartSettings.onWindowResize;
 					})
-					.catch(error => {
+					.catch((error) => {
 						console.log(error);
 						document.getElementById(
 							"settings__inner-container"
@@ -164,14 +165,18 @@ const gStartBase = {
 		} else {
 			// Currently open
 
-			document.getElementById("settings").style.display = "none";
+			document.getElementById("settings").classList.remove("settings--open");
 			this.settingsPanelOpen = false;
 			document.getElementById("toggle-settings__text").innerHTML = "Settings";
 			document
 				.getElementById("toggle-settings__link")
 				.classList.remove("toggle-settings__link--open");
 		}
-	}
+	},
+
+	enableCSSTransitions() {
+		document.body.classList.add("body--transitions-enabled");
+	},
 };
 
 export default gStartBase;
