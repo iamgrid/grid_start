@@ -143,6 +143,9 @@ const gStartBase = {
 					.then((gss) => {
 						window.gStartSettings = gss.default;
 						gStartSettings.renderSettings();
+						document
+							.getElementById("settings")
+							.classList.add("settings--rendered");
 						window.onresize = gStartSettings.onWindowResize;
 					})
 					.catch((error) => {
@@ -152,6 +155,7 @@ const gStartBase = {
 						).innerHTML = `<div class='settings__error'>Error: ${error.message}</div>`;
 					});
 			} else {
+				document.getElementById("settings").classList.add("settings--rendered");
 				document.getElementById("settings__select-theme").focus();
 			}
 
@@ -166,11 +170,17 @@ const gStartBase = {
 			// Currently open
 
 			document.getElementById("settings").classList.remove("settings--open");
+			document
+				.getElementById("settings")
+				.classList.remove("settings--rendered");
 			this.settingsPanelOpen = false;
 			document.getElementById("toggle-settings__text").innerHTML = "Settings";
 			document
 				.getElementById("toggle-settings__link")
 				.classList.remove("toggle-settings__link--open");
+			document
+				.getElementById("saveAsButton")
+				.classList.remove("disable-element-animation");
 		}
 	},
 

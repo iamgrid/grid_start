@@ -150,7 +150,9 @@ const gStartSettings = {
 
 		document.getElementById("deleteButton").onclick = themeManager.deleteTheme;
 		document.getElementById("saveButton").onclick = themeManager.saveTheme;
-		document.getElementById("saveAsButton").onclick = themeManager.saveThemeAs;
+		document.getElementById(
+			"saveAsButton"
+		).onclick = themeManager.saveThemeAs.bind(themeManager);
 		document.getElementById("exportButton").onclick = this.exportSettings;
 		document.getElementById(
 			"commitButton"

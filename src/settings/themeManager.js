@@ -1,6 +1,8 @@
 import { idMaker } from "../utils/idMaker";
+import gStartSettings from "../settings";
 
 export const themeManager = {
+	saveThemeAsFormOpen: false,
 	activateTheme(event) {
 		const req = event.target.value;
 
@@ -55,12 +57,23 @@ export const themeManager = {
 	},
 
 	saveThemeAs() {
-		document.getElementById("save-as-form").style.display = "grid";
-		document.getElementById("save-as-form__name-input").focus();
+		if (!this.saveThemeAsFormOpen) {
+			document.getElementById("save-as-form").style.display = "grid";
+			document.getElementById("saveAsButton").classList.add("ibutton--active");
+			this.saveThemeAsFormOpen = true;
+			document.getElementById("save-as-form__name-input").focus();
+		} else {
+			this.cancelSaveThemeAs();
+		}
 	},
 
 	cancelSaveThemeAs() {
 		document.getElementById("save-as-form").style.display = "none";
+		document
+			.getElementById("saveAsButton")
+			.classList.add("disable-element-animation");
+		document.getElementById("saveAsButton").classList.remove("ibutton--active");
+		themeManager.saveThemeAsFormOpen = false;
 		document.getElementById("save-as-form__name-input").value = "";
 	},
 

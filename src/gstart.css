@@ -18,6 +18,13 @@
 	--scrollbar-thumb: #737373;
 	--max-page-width: 1500px;
 	--page-padding: 60px;
+	--bta: 0.4s cubic-bezier(0, 0, 0.75, 1.4) 1 forwards button-animation;
+	--bta-delay-basis: 0.4s;
+	--bta-delay-multiplier: 0.05s;
+}
+
+.disable-element-animation {
+	animation: none !important;
 }
 
 * {
@@ -128,13 +135,13 @@ body {
 	opacity: 0;
 	max-height: 0;
 	overflow-y: hidden;
-	transition: opacity 0s, max-height 0s;
+	transition: opacity 0s /*, max-height 0s*/;
 }
 
 .settings--open .settings__inner-container {
 	opacity: 1;
 	max-height: 1200px;
-	transition: opacity 0.2s ease-in 0.3s, max-height linear 0.1s;
+	transition: opacity 0.2s ease-in 0.1s /*, max-height linear 0.1s*/;
 }
 
 @media all and (min-width: 850px) {
@@ -284,7 +291,7 @@ select {
 	padding: 0.3em 1em;
 	border: 3px solid #4f4f4f;
 	cursor: pointer;
-	background: #383838;
+	background-color: #383838;
 	font-size: 0.9em;
 	white-space: nowrap;
 	color: #ffffff90;
@@ -292,29 +299,54 @@ select {
 }
 
 .ibutton:hover {
-	background: #606060;
+	background-color: #606060;
 	border-color: #6f6f6f;
 	color: #ffffffd0;
+	padding-left: 1.3em;
+	padding-right: 1.3em;
+}
+
+.ibutton--active {
+	border-color: #26698a;
+	color: #ffffffc0;
+	padding-left: 1.3em;
+	padding-right: 1.3em;
+	animation: 1s ease infinite alternate active-ibutton-animation !important;
+}
+
+@keyframes active-ibutton-animation {
+	0% {
+		background-color: #202020;
+		transform: translateY(0px);
+	}
+	100% {
+		background-color: #295064;
+		transform: translateY(0px);
+	}
+}
+
+.ibutton--active:hover {
+	border-color: #3d89af;
 }
 
 .ibutton--preferred {
-	background: #295064;
+	background-color: #295064;
 	border-color: #3d89af;
 }
 
 .ibutton--preferred:hover {
-	background: #3d89af;
+	background-color: #3d89af;
 	border-color: #24a4e4;
 }
 
 .ibutton--disabled {
-	background: #e5e5e5;
+	background-color: #e5e5e5;
 	cursor: default;
 	text-shadow: -1px -1px 0 #f9f9f9;
 }
 
 .ibutton--disabled:hover {
-	background: #e5e5e5;
+	background-color: #e5e5e5;
 }
 
 .settings__section-title {
@@ -436,11 +468,74 @@ select {
 
 .settings-buttons__inner {
 	margin-top: 0.4em;
+	overflow-y: hidden;
 }
 
 .settings-buttons__ibutton {
 	float: left;
 	margin: 1.1em 0.5em 0;
+}
+
+@keyframes button-animation {
+	0% {
+		transform: translateY(38px);
+		opacity: 0.4;
+	}
+	85% {
+		transform: translateY(0px);
+		opacity: 0.4;
+	}
+	100% {
+		transform: translateY(0px);
+		opacity: 1;
+	}
+}
+
+#deleteButton,
+#saveButton,
+#saveAsButton,
+#exportButton,
+#commitButton {
+	transform: translateY(38px);
+}
+
+.settings--rendered #deleteButton {
+	animation: var(--bta);
+	animation-delay: calc(
+		var(--bta-delay-basis) + (0 * var(--bta-delay-multiplier))
+	);
+}
+
+.settings--rendered #saveButton {
+	animation: var(--bta);
+	animation-delay: calc(
+		var(--bta-delay-basis) + (1 * var(--bta-delay-multiplier))
+	);
+}
+
+.settings--rendered #saveAsButton {
+	animation: var(--bta);
+	animation-delay: calc(
+		var(--bta-delay-basis) + (2 * var(--bta-delay-multiplier))
+	);
+}
+
+.settings--rendered #exportButton {
+	animation: var(--bta);
+	animation-delay: calc(
+		var(--bta-delay-basis) + (3 * var(--bta-delay-multiplier))
+	);
+}
+
+.settings--rendered #commitButton {
+	animation: var(--bta);
+	animation-delay: calc(
+		var(--bta-delay-basis) + (4 * var(--bta-delay-multiplier))
+	);
+}
+
+#saveAsButton.disable-element-animation {
+	transform: translateY(0px);
 }
 
 .save-as-form {
