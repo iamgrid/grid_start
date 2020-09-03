@@ -169,6 +169,9 @@ const gStartBase = {
 		} else {
 			// Currently open
 
+			if (typeof gStartSettings !== "undefined") {
+				gStartSettings.cancelSaveThemeAs();
+			}
 			document.getElementById("settings").classList.remove("settings--open");
 			document
 				.getElementById("settings")

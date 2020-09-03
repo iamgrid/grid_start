@@ -134,7 +134,7 @@ body {
 	padding: 0 var(--page-padding);
 	opacity: 0;
 	max-height: 0;
-	overflow-y: hidden;
+	/* overflow-y: hidden; */
 	transition: opacity 0s /*, max-height 0s*/;
 }
 

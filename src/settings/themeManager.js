@@ -30,6 +30,7 @@ export const themeManager = {
 				)
 			) {
 				activateThemeProper();
+				themeManager.cancelSaveThemeAs();
 				gStartSettings.themeHasBeenModified(false);
 			} else {
 				// set theme selector value back to the current theme
@@ -38,6 +39,7 @@ export const themeManager = {
 			}
 		} else {
 			activateThemeProper();
+			themeManager.cancelSaveThemeAs();
 		}
 	},
 
@@ -68,13 +70,17 @@ export const themeManager = {
 	},
 
 	cancelSaveThemeAs() {
-		document.getElementById("save-as-form").style.display = "none";
-		document
-			.getElementById("saveAsButton")
-			.classList.add("disable-element-animation");
-		document.getElementById("saveAsButton").classList.remove("ibutton--active");
-		themeManager.saveThemeAsFormOpen = false;
-		document.getElementById("save-as-form__name-input").value = "";
+		if (themeManager.saveThemeAsFormOpen) {
+			document.getElementById("save-as-form").style.display = "none";
+			document
+				.getElementById("saveAsButton")
+				.classList.add("disable-element-animation");
+			document
+				.getElementById("saveAsButton")
+				.classList.remove("ibutton--active");
+			themeManager.saveThemeAsFormOpen = false;
+			document.getElementById("save-as-form__name-input").value = "";
+		}
 	},
 
 	saveThemeAsActual() {

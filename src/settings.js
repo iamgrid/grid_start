@@ -57,6 +57,10 @@ const gStartSettings = {
 		colorManager.updatePickerStarterColors();
 	},
 
+	cancelSaveThemeAs() {
+		themeManager.cancelSaveThemeAs();
+	},
+
 	renderSettings() {
 		let re = [];
 
