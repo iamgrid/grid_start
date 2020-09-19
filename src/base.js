@@ -50,8 +50,6 @@ const gStartBase = {
 			.getElementById("links")
 			.querySelectorAll(".links__link");
 
-		let linkId = 0;
-
 		class LinkItem {
 			constructor(text, id, url) {
 				this.text = text;
@@ -60,10 +58,11 @@ const gStartBase = {
 			}
 		}
 
+		let linkId = 0;
+
 		for (const el of elementList) {
 			// attaching click handlers and element ids
 			el.onclick = gStartBase.open;
-			el.id = `gslink_${linkId}`;
 
 			// building linkset
 			let text = el.innerText;
