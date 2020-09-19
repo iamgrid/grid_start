@@ -71,6 +71,32 @@ const gStartBase = {
 		}
 
 		console.log(this.linkSet);
+
+		document
+			.getElementById("quicksearch")
+			.addEventListener("keyup", gStartBase.liveSearch);
+	},
+
+	liveSearch(event) {
+		event.preventDefault();
+
+		if (event.keyCode === 27) {
+			// escape key
+			event.target.value = "";
+		} else if (event.keyCode === 13) {
+			// enter key
+			console.log("LETS GO");
+		} else if (event.keyCode === 38) {
+			// up key
+			console.log("up");
+		} else if (event.keyCode === 40) {
+			// down key
+			console.log("down");
+		} else {
+			const searchPhrase = event.target.value;
+		}
+
+		// console.log(event);
 	},
 
 	commitToStorage(event, settingsObj = null) {

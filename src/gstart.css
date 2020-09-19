@@ -200,15 +200,34 @@ body {
 .quick-search {
 	display: grid;
 	justify-content: center;
+	margin-top: 0.2em;
+}
+
+.quick-search__field-wrapper {
+	position: relative;
 }
 
 .quick-search__field {
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
 	font-size: 1.2em;
 	padding: 0.3em 0.5em;
-	background-color: #00000030;
-	color: var(--link-text-color);
-	border: 2px solid var(--separator-color);
+	background: none;
+	color: var(--link-text-color-hl);
+	border: 0;
+	border-bottom: 1px solid var(--separator-color);
 	letter-spacing: 1px;
+	text-align: center;
+}
+
+.quick-search__results {
+	position: absolute;
+	border: 1px solid #ffffff80;
+	color: #ffffff80;
+	background: #000000a0;
+	left: 0;
+	right: 0;
+	visibility: hidden;
 }
 
 /* LINKS */
