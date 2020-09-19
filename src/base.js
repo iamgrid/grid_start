@@ -3,20 +3,22 @@ import { wallpapers } from "./base/wallpapers";
 
 const gStartBase = {
 	settings: {},
-	linkSet: { quick: [], complete: [] },
+	target: "_blank",
 	settingsPanelOpen: false,
 	settingsOpenedBefore: false,
+	liveSearch: { linkSet: [], searchResults: [], focusedResult: 0 },
 
 	open(event) {
-		let target = "_blank";
 		const url = event.target.dataset["url"];
-		if (window.location.hash == "#self") target = "_self";
-		window.open(url, target);
+		window.open(url, gStartBase.target);
 	},
 
 	init() {
-		this.buildLinkSet();
 		console.log("initializing...");
+
+		if (window.location.hash == "#self") this.target = "_self";
+
+		this.buildLinkSet();
 
 		let storedSettings = localStorage.getItem("gStartSettings");
 
@@ -64,28 +66,35 @@ const gStartBase = {
 
 			// building linkset
 			let text = el.innerText;
-			this.linkSet.quick.push(text);
-			this.linkSet.complete.push(new LinkItem(text, linkId, el.dataset["url"]));
+			this.liveSearch.linkSet.push(
+				new LinkItem(text, linkId, el.dataset["url"])
+			);
 
 			linkId++;
 		}
 
-		console.log(this.linkSet);
-
 		document
 			.getElementById("quicksearch")
-			.addEventListener("keyup", gStartBase.liveSearch);
+			.addEventListener("keyup", gStartBase.doLiveSearch.bind(this));
 	},
 
-	liveSearch(event) {
+	doLiveSearch(event) {
 		event.preventDefault();
+		const current = event.target.value;
 
 		if (event.keyCode === 27) {
 			// escape key
 			event.target.value = "";
+			document.getElementById("quicksearchresults").style.visibility = "hidden";
 		} else if (event.keyCode === 13) {
 			// enter key
+			if (this.liveSearch.searchResults.length < 1) return;
+
 			console.log("LETS GO");
+			const linkId = this.liveSearch.searchResults[
+				this.liveSearch.focusedResult
+			];
+			window.open(this.liveSearch.linkSet[linkId].url, gStartBase.target);
 		} else if (event.keyCode === 38) {
 			// up key
 			console.log("up");
@@ -93,10 +102,41 @@ const gStartBase = {
 			// down key
 			console.log("down");
 		} else {
-			const searchPhrase = event.target.value;
-		}
+			if (current.length < 2) {
+				this.liveSearch.searchResults = [];
+				document.getElementById("quicksearchresults").innerHTML = "";
+				document.getElementById("quicksearchresults").style.visibility =
+					"hidden";
+				return;
+			}
 
-		// console.log(event);
+			this.liveSearch.focusedResult = 0;
+
+			const newResultSet = [];
+
+			this.liveSearch.linkSet.forEach((el, ix) => {
+				if (el.text.search(new RegExp(current, "i")) >= 0)
+					newResultSet.push(ix);
+			});
+
+			this.liveSearch.searchResults = [...newResultSet];
+
+			document.getElementById("quicksearchresults").style.visibility =
+				"visible";
+			let resultDisplay = newResultSet.map((el, ix) => {
+				return `<div class="quick-search__result${
+					ix === 0 ? " quick-search__result--focused" : ""
+				}">
+						<span>${this.liveSearch.linkSet[el].text}</span><br>${
+					this.liveSearch.linkSet[el].url
+				}
+					</div>`;
+			});
+
+			document.getElementById(
+				"quicksearchresults"
+			).innerHTML = resultDisplay.join("");
+		}
 	},
 
 	commitToStorage(event, settingsObj = null) {

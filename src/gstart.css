@@ -224,10 +224,31 @@ body {
 	position: absolute;
 	border: 1px solid #ffffff80;
 	color: #ffffff80;
-	background: #000000a0;
 	left: 0;
 	right: 0;
 	visibility: hidden;
+}
+
+.quick-search__result {
+	color: #ffffff80;
+	background: #000000a0;
+	border-top: 1px solid #ffffff80;
+	font-size: 0.6em;
+	padding: 0.7em 1em;
+	line-height: 2em;
+}
+
+.quick-search__result:first-child {
+	border-top: 0;
+}
+
+.quick-search__result span {
+	color: #ffffff;
+	font-size: 1.3em;
+}
+
+.quick-search__result--focused {
+	background: #1f546e;
 }
 
 /* LINKS */
