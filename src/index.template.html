@@ -59,128 +59,157 @@
 				>
 			</a>
 		</div>
-		<div class="links">
+		<div class="links" id="links">
 			<div class="links__column">
 				<div class="links__column-title">Work</div>
 				<div class="links__link-list">
 					<a
 						class="links__link"
-						onclick="gStartBase.open('http://localhost/phpmyadmin/')"
+						onclick="gStartBase.open(event)"
+						data-url="http://localhost/phpmyadmin/"
 						>PMA (local)</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://iamgrid.co.uk')"
+						onclick="gStartBase.open(event)"
+						data-url="https://iamgrid.co.uk"
 						>iamgrid.co.uk</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://iamgrid.co.uk:2083/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://iamgrid.co.uk:2083/"
 						>iamgrid.co.uk cPanel</a
 					>
 					<hr class="links__separator" />
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.npmjs.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.npmjs.com/"
 						>NPM</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://reactjs.org/docs/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://reactjs.org/docs/"
 						>React docs</a
 					>
 					<hr class="links__separator" />
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://github.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://github.com/"
 						>GitHub</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://gitlab.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://gitlab.com/"
 						>GitLab</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://codepen.io/dashboard/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://codepen.io/dashboard/"
 						>Codepen</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://codesandbox.io/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://codesandbox.io/"
 						>Codesandbox</a
 					>
 					<hr class="links__separator" />
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://create-react-app.dev/docs/getting-started')"
-						>Create React App docs</a
+						onclick="gStartBase.open(event)"
+						data-url="https://10fastfingers.com/"
+						>10FF</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.w3.org/TR/wai-aria-practices-1.1/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.ratatype.com/"
+						>Ratatype</a
+					>
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.w3.org/TR/wai-aria-practices-1.1/"
 						>ARIA Authoring Practices</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://ebay.github.io/mindpatterns/')"
-						>eBay MIND Patterns</a
-					>
-					<a
-						class="links__link"
-						onclick="gStartBase.open('https://www.udemy.com/')"
-						>Udemy</a
-					>
-					<a
-						class="links__link"
-						onclick="gStartBase.open('https://scrimba.com/@iamgrid')"
-						>Scrimba</a
-					>
-					<a
-						class="links__link"
-						onclick="gStartBase.open('https://www.codewars.com/users/keatsdothu/stats')"
-						>CodeWars</a
-					>
-					<a
-						class="links__link"
-						onclick="gStartBase.open('https://leetcode.com/')"
-						>LeetCode</a
-					>
-					<hr class="links__separator" />
-					<a
-						class="links__link"
-						onclick="gStartBase.open('https://github.com/getify/You-Dont-Know-JS')"
+						onclick="gStartBase.open(event)"
+						data-url="https://github.com/getify/You-Dont-Know-JS"
 						>YDKJS</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.dofactory.com/javascript/design-patterns')"
-						>JS Design Patterns</a
+						onclick="gStartBase.open(event)"
+						data-url="https://www.udemy.com/"
+						>Udemy</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://fonts.google.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://scrimba.com/@iamgrid"
+						>Scrimba</a
+					>
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.codewars.com/users/keatsdothu/stats"
+						>CodeWars</a
+					>
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://edabit.com"
+						>Edabit</a
+					>
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://app.codesignal.com/"
+						>Codesignal</a
+					>
+					<hr class="links__separator" />
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://bennettfeely.com/clippy/"
+						>Clippy</a
+					>
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://cubic-bezier.com"
+						>cubic-bezier</a
+					>
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://fonts.google.com"
 						>Google Fonts</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://carbon.now.sh')"
+						onclick="gStartBase.open(event)"
+						data-url="https://carbon.now.sh"
 						>Carbon</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://galactic.ink/piano/')"
-						>MIDI JS</a
+						onclick="gStartBase.open(event)"
+						data-url="https://www.dofactory.com/javascript/design-patterns"
+						>JS Design Patterns</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.8notes.com/piano_chord_chart/C9sus4.asp')"
-						>All Chords</a
-					>
-					<a
-						class="links__link"
-						onclick="gStartBase.open('https://www.kvraudio.com/plugins/windows/vst-plugins/effects/free/most-popular/start0')"
-						>KVR VST DB</a
+						onclick="gStartBase.open(event)"
+						data-url="https://ebay.github.io/mindpatterns/"
+						>eBay MIND Patterns</a
 					>
 				</div>
 			</div>
@@ -192,104 +221,123 @@
 				<div class="links__link-list">
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://newyorker.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://newyorker.com"
 						>New Yorker</a
 					>
 					<!--
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://nytimes.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://nytimes.com"
 						>NYT</a
 					>
-					<a class="links__link" onclick="gStartBase.open('https://nymag.com')"
+					<a class="links__link" onclick="gStartBase.open(event)"
+						data-url="https://nymag.com"
 						>NYMag</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://fivethirtyeight.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://fivethirtyeight.com"
 						>538</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.vox.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.vox.com"
 						>Vox</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://theintercept.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://theintercept.com/"
 						>The Intercept</a
-					>
-					<a class="links__link" onclick="gStartBase.open('https://www.qz.com')"
-						>Quartz</a
 					>
 					-->
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://zeitung.faz.net/faz/seite-eins/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://zeitung.faz.net/faz/seite-eins/"
 						>Frankfurter Allgemeine</a
 					>
-					<a class="links__link" onclick="gStartBase.open('https://taz.de')"
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://taz.de"
 						>taz</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.theguardian.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.theguardian.com"
 						>The Guardian</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.independent.co.uk/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.independent.co.uk/"
 						>Independent.co.uk</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.politico.eu/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.politico.eu/"
 						>Politico EU</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.irishtimes.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.irishtimes.com"
 						>Irish Times</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.independent.ie')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.independent.ie"
 						>Independent.ie</a
 					>
 					<hr class="links__separator" />
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://twitter.com/i/lists/1240266298292084736')"
+						onclick="gStartBase.open(event)"
+						data-url="https://twitter.com/i/lists/1240266298292084736"
 						>Tech 1</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://twitter.com/i/lists/880717048380346368')"
+						onclick="gStartBase.open(event)"
+						data-url="https://twitter.com/i/lists/880717048380346368"
 						>Tech 2</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://twitter.com/i/lists/1055806429679026176')"
+						onclick="gStartBase.open(event)"
+						data-url="https://twitter.com/i/lists/1055806429679026176"
 						>People 1</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://twitter.com/i/lists/997467619757363200')"
+						onclick="gStartBase.open(event)"
+						data-url="https://twitter.com/i/lists/997467619757363200"
 						>People 2</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://twitter.com/i/lists/1240232019470188544')"
+						onclick="gStartBase.open(event)"
+						data-url="https://twitter.com/i/lists/1240232019470188544"
 						>CR Crew</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.reddit.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.reddit.com"
 						>Reddit</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.listennotes.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.listennotes.com"
 						>Listen Notes</a
 					>
 				</div>
@@ -302,97 +350,131 @@
 				<div class="links__link-list">
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://techcrunch.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://techcrunch.com"
 						>TechCrunch</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.engadget.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.engadget.com/"
 						>Engadget</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.theverge.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.theverge.com"
 						>The Verge</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://news.ycombinator.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://news.ycombinator.com/"
 						>Hacker News</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.nature.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.nature.com/"
 						>Nature</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.space.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.space.com"
 						>Space.com</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://electrek.co/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://electrek.co/"
 						>Electrek</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('http://stuffin.space/?search=starlink')"
+						onclick="gStartBase.open(event)"
+						data-url="http://stuffin.space/?search=starlink"
 						>SiS Starlink</a
 					>
 					<hr class="links__separator" />
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://reactjs.org/blog')"
+						onclick="gStartBase.open(event)"
+						data-url="https://reactjs.org/blog"
 						>React Blog</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://kentcdodds.com/blog/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://kentcdodds.com/blog/"
 						>Kent C. Dodds Blog</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://blog.logrocket.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://blog.logrocket.com/"
 						>Logrocket Blog</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://khairold.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://khairold.com/"
 						>Overreacted</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://github.com/tc39')"
+						onclick="gStartBase.open(event)"
+						data-url="https://github.com/tc39"
 						>TC39</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://app.getpocket.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://app.getpocket.com/"
 						>Pocket</a
 					>
 					<hr class="links__separator" />
-					<a class="links__link" onclick="gStartBase.open('http://444.hu')"
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="http://444.hu"
 						>444</a
 					>
-					<a class="links__link" onclick="gStartBase.open('http://24.hu')"
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="http://telex.hu"
+						>Telex</a
+					>
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="http://24.hu"
 						>24</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://magyarhang.org')"
-						>Magyar Hang</a
-					>
-					<a class="links__link" onclick="gStartBase.open('http://hvg.hu')"
+						onclick="gStartBase.open(event)"
+						data-url="http://hvg.hu"
 						>HVG</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://sorozatjunkie.hu')"
-						>SJ</a
+						onclick="gStartBase.open(event)"
+						data-url="https://www.szabadeuropa.hu/"
+						>Szabad Európa</a
 					>
-					<a class="links__link" onclick="gStartBase.open('https://qubit.hu')"
-						>Qubit</a
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://magyarhang.org"
+						>Magyar Hang</a
+					>
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://sorozatjunkie.hu"
+						>SJ</a
 					>
 				</div>
 			</div>
@@ -401,91 +483,132 @@
 				<div class="links__link-list">
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://youtube.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://youtube.com"
 						>YouTube</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://netflix.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://netflix.com"
 						>Netflix</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://soundcloud.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://soundcloud.com"
 						>SoundCloud</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://store.steampowered.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://store.steampowered.com/"
 						>Steam</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://dribbble.com/shots')"
+						onclick="gStartBase.open(event)"
+						data-url="https://dribbble.com/shots"
 						>dribbble</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://sidebar.io/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://sidebar.io/"
 						>Sidebar</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.itsnicethat.com/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.itsnicethat.com/"
 						>It's Nice That</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://alpha.wallhaven.cc/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://alpha.wallhaven.cc/"
 						>Wallhaven</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.escapistmagazine.com/v2/category/video-series/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.escapistmagazine.com/v2/category/video-series/"
 						>Escapist</a
 					>
-					<a class="links__link" onclick="gStartBase.open('https://eztv.it')"
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://eztv.it"
 						>EZTV</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://horriblesubs.info/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://horriblesubs.info/"
 						>hSubs</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://yts.am/browse-movies')"
+						onclick="gStartBase.open(event)"
+						data-url="https://yts.am/browse-movies"
 						>YTS</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.limetorrents.cc/cat_top/16/Movies/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.limetorrents.cc/cat_top/16/Movies/"
 						>LTM</a
 					>
 					<hr class="links__separator" />
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://trailers.apple.com/trailers/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://trailers.apple.com/trailers/"
 						>Apple Trailers</a
 					>
-					<a class="links__link" onclick="gStartBase.open('https://twitch.tv')"
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://twitch.tv"
 						>Twitch</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.bbc.co.uk/1xtra/')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.bbc.co.uk/1xtra/"
 						>Radio 1Xtra</a
 					>
 					<hr class="links__separator" />
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.instagram.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.instagram.com"
 						>Instagram</a
 					>
 					<a
 						class="links__link"
-						onclick="gStartBase.open('https://www.messenger.com')"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.messenger.com"
 						>Messenger</a
+					>
+					<hr class="links__separator" />
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://galactic.ink/piano/"
+						>MIDI JS</a
+					>
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.8notes.com/piano_chord_chart/C9sus4.asp"
+						>All Chords</a
+					>
+					<a
+						class="links__link"
+						onclick="gStartBase.open(event)"
+						data-url="https://www.kvraudio.com/plugins/windows/vst-plugins/effects/free/most-popular/start0"
+						>KVR VST DB</a
 					>
 				</div>
 			</div>

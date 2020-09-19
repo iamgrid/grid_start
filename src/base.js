@@ -6,8 +6,9 @@ const gStartBase = {
 	settingsPanelOpen: false,
 	settingsOpenedBefore: false,
 
-	open(url) {
+	open(event) {
 		let target = "_blank";
+		const url = event.target.dataset["url"];
 		if (window.location.hash == "#self") target = "_self";
 		window.open(url, target);
 	},
