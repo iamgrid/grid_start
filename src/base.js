@@ -3,6 +3,7 @@ import { wallpapers } from "./base/wallpapers";
 
 const gStartBase = {
 	settings: {},
+	linkSet: {},
 	settingsPanelOpen: false,
 	settingsOpenedBefore: false,
 
@@ -14,6 +15,7 @@ const gStartBase = {
 	},
 
 	init() {
+		this.buildLinkSet();
 		console.log("initializing...");
 
 		let storedSettings = localStorage.getItem("gStartSettings");
@@ -33,6 +35,20 @@ const gStartBase = {
 		this.showCurrentTheme();
 		// console.log(this.settings);
 		setTimeout(gStartBase.enableCSSTransitions, 300);
+	},
+
+	buildLinkSet() {
+		const elementArray = document
+			.getElementById("links")
+			.querySelectorAll(".links__link");
+		console.log(elementArray);
+
+		let linkId = 0;
+
+		for (const el of elementArray) {
+			// attaching click handlers
+			el.onclick = gStartBase.open;
+		}
 	},
 
 	commitToStorage(event, settingsObj = null) {
