@@ -223,6 +223,7 @@ body {
 .quick-search__results {
 	position: absolute;
 	border: 1px solid #ffffff80;
+	background: #000000a0;
 	color: #ffffff80;
 	left: 0;
 	right: 0;
@@ -230,21 +231,31 @@ body {
 }
 
 .quick-search__result {
+	display: block;
 	color: #ffffff80;
-	background: #000000a0;
-	border-top: 1px solid #ffffff80;
+	border-top: 1px solid #ffffff60;
 	font-size: 0.6em;
 	padding: 0.7em 1em;
 	line-height: 2em;
+	cursor: pointer;
 }
 
 .quick-search__result:first-child {
 	border-top: 0;
 }
 
-.quick-search__result span {
+.quick-search__result-name {
 	color: #ffffff;
 	font-size: 1.3em;
+}
+
+.quick-search__result-name span {
+	color: yellow;
+	background-color: red;
+}
+
+.quick-search__result:hover {
+	background: #306c8a;
 }
 
 .quick-search__result--focused {

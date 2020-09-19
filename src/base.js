@@ -9,7 +9,9 @@ const gStartBase = {
 	liveSearch: { linkSet: [], searchResults: [], focusedResult: 0 },
 
 	open(event) {
-		const url = event.target.dataset["url"];
+		const url =
+			event.target.dataset["url"] || event.currentTarget.dataset["url"];
+		console.log({ url });
 		window.open(url, gStartBase.target);
 	},
 
@@ -90,17 +92,20 @@ const gStartBase = {
 			// enter key
 			if (this.liveSearch.searchResults.length < 1) return;
 
-			console.log("LETS GO");
 			const linkId = this.liveSearch.searchResults[
 				this.liveSearch.focusedResult
 			];
 			window.open(this.liveSearch.linkSet[linkId].url, gStartBase.target);
 		} else if (event.keyCode === 38) {
 			// up key
-			console.log("up");
+			const focused = gStartBase.liveSearch.focusedResult;
+			if (focused === 0) return;
+			this.resultCursor(focused - 1);
 		} else if (event.keyCode === 40) {
 			// down key
-			console.log("down");
+			const focused = gStartBase.liveSearch.focusedResult;
+			if (focused > this.liveSearch.searchResults.length - 2) return;
+			this.resultCursor(focused + 1);
 		} else {
 			if (current.length < 2) {
 				this.liveSearch.searchResults = [];
@@ -111,12 +116,12 @@ const gStartBase = {
 			}
 
 			this.liveSearch.focusedResult = 0;
-
 			const newResultSet = [];
 
+			const regex = new RegExp(current, "i");
+
 			this.liveSearch.linkSet.forEach((el, ix) => {
-				if (el.text.search(new RegExp(current, "i")) >= 0)
-					newResultSet.push(ix);
+				if (el.text.search(regex) >= 0) newResultSet.push(ix);
 			});
 
 			this.liveSearch.searchResults = [...newResultSet];
@@ -124,19 +129,35 @@ const gStartBase = {
 			document.getElementById("quicksearchresults").style.visibility =
 				"visible";
 			let resultDisplay = newResultSet.map((el, ix) => {
-				return `<div class="quick-search__result${
+				return `<a id="qsr_${ix}" class="quick-search__result${
 					ix === 0 ? " quick-search__result--focused" : ""
-				}">
-						<span>${this.liveSearch.linkSet[el].text}</span><br>${
-					this.liveSearch.linkSet[el].url
-				}
-					</div>`;
+				}" data-url="${this.liveSearch.linkSet[el].url}">
+						<span class="quick-search__result-name">${
+							this.liveSearch.linkSet[el].text
+						}</span><br>${this.liveSearch.linkSet[el].url}
+					</a>`;
 			});
 
 			document.getElementById(
 				"quicksearchresults"
 			).innerHTML = resultDisplay.join("");
+
+			newResultSet.forEach((_, ix) => {
+				document.getElementById("qsr_" + ix).onclick = gStartBase.open;
+			});
 		}
+	},
+
+	resultCursor(newFocus) {
+		const focused = gStartBase.liveSearch.focusedResult;
+		document
+			.getElementById("qsr_" + focused)
+			.classList.remove("quick-search__result--focused");
+
+		gStartBase.liveSearch.focusedResult = newFocus;
+		document
+			.getElementById("qsr_" + newFocus)
+			.classList.add("quick-search__result--focused");
 	},
 
 	commitToStorage(event, settingsObj = null) {
