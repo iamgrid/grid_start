@@ -218,6 +218,11 @@ body {
 	border-bottom: 1px solid var(--separator-color);
 	letter-spacing: 1px;
 	text-align: center;
+	outline: 0;
+}
+
+.quick-search__field:focus {
+	border-bottom: 1px solid var(--separator-color-hl);
 }
 
 .quick-search__results {
@@ -250,8 +255,7 @@ body {
 }
 
 .quick-search__result-name span {
-	color: yellow;
-	background-color: red;
+	background-color: purple;
 }
 
 .quick-search__result:hover {
@@ -268,7 +272,7 @@ body {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(var(--deck-width), 1fr));
 	grid-gap: 4em;
-	padding: 1.8em var(--page-padding);
+	padding: 1.3em var(--page-padding);
 	margin: 0 auto;
 	max-width: var(--max-page-width);
 }

@@ -11,7 +11,6 @@ const gStartBase = {
 	open(event) {
 		const url =
 			event.target.dataset["url"] || event.currentTarget.dataset["url"];
-		console.log({ url });
 		window.open(url, gStartBase.target);
 	},
 
@@ -41,7 +40,7 @@ const gStartBase = {
 		// console.log(this.settings);
 
 		document.getElementById("quicksearch").value = "";
-		document.getElementById("quicksearch").focus();
+		// document.getElementById("quicksearch").focus();
 
 		setTimeout(gStartBase.enableCSSTransitions, 300);
 	},
@@ -82,7 +81,7 @@ const gStartBase = {
 
 	doLiveSearch(event) {
 		event.preventDefault();
-		const current = event.target.value;
+		const currentSearch = event.target.value;
 
 		if (event.keyCode === 27) {
 			// escape key
@@ -98,6 +97,8 @@ const gStartBase = {
 			window.open(this.liveSearch.linkSet[linkId].url, gStartBase.target);
 		} else if (event.keyCode === 38) {
 			// up key
+			document.getElementById("quicksearch").setSelectionRange(100, 100);
+
 			const focused = gStartBase.liveSearch.focusedResult;
 			if (focused === 0) return;
 			this.resultCursor(focused - 1);
@@ -107,7 +108,7 @@ const gStartBase = {
 			if (focused > this.liveSearch.searchResults.length - 2) return;
 			this.resultCursor(focused + 1);
 		} else {
-			if (current.length < 2) {
+			if (currentSearch.length < 2) {
 				this.liveSearch.searchResults = [];
 				document.getElementById("quicksearchresults").innerHTML = "";
 				document.getElementById("quicksearchresults").style.visibility =
@@ -118,7 +119,7 @@ const gStartBase = {
 			this.liveSearch.focusedResult = 0;
 			const newResultSet = [];
 
-			const regex = new RegExp(current, "i");
+			const regex = new RegExp(currentSearch, "i");
 
 			this.liveSearch.linkSet.forEach((el, ix) => {
 				if (el.text.search(regex) >= 0) newResultSet.push(ix);
@@ -129,12 +130,23 @@ const gStartBase = {
 			document.getElementById("quicksearchresults").style.visibility =
 				"visible";
 			let resultDisplay = newResultSet.map((el, ix) => {
+				const text = this.liveSearch.linkSet[el].text;
+				const url = this.liveSearch.linkSet[el].url;
+
+				const matchStart = text.toLowerCase().indexOf(currentSearch);
+				const matchEnd = matchStart + currentSearch.length;
+
+				const showText = `${text.substring(
+					0,
+					matchStart
+				)}<span>${text.substring(matchStart, matchEnd)}</span>${text.substring(
+					matchEnd
+				)}`;
+
 				return `<a id="qsr_${ix}" class="quick-search__result${
 					ix === 0 ? " quick-search__result--focused" : ""
-				}" data-url="${this.liveSearch.linkSet[el].url}">
-						<span class="quick-search__result-name">${
-							this.liveSearch.linkSet[el].text
-						}</span><br>${this.liveSearch.linkSet[el].url}
+				}" data-url="${url}">
+						<span class="quick-search__result-name">${showText}</span><br>${url}
 					</a>`;
 			});
 
