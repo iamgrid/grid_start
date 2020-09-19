@@ -3,7 +3,7 @@ import { wallpapers } from "./base/wallpapers";
 
 const gStartBase = {
 	settings: {},
-	linkSet: {},
+	linkSet: { quick: [], complete: [] },
 	settingsPanelOpen: false,
 	settingsOpenedBefore: false,
 
@@ -33,22 +33,44 @@ const gStartBase = {
 
 		console.log("displaying current theme...");
 		this.showCurrentTheme();
+
 		// console.log(this.settings);
+
+		document.getElementById("quicksearch").value = "";
+		document.getElementById("quicksearch").focus();
+
 		setTimeout(gStartBase.enableCSSTransitions, 300);
 	},
 
 	buildLinkSet() {
-		const elementArray = document
+		const elementList = document
 			.getElementById("links")
 			.querySelectorAll(".links__link");
-		console.log(elementArray);
 
 		let linkId = 0;
 
-		for (const el of elementArray) {
-			// attaching click handlers
-			el.onclick = gStartBase.open;
+		class LinkItem {
+			constructor(text, id, url) {
+				this.text = text;
+				this.id = id;
+				this.url = url;
+			}
 		}
+
+		for (const el of elementList) {
+			// attaching click handlers and element ids
+			el.onclick = gStartBase.open;
+			el.id = `gslink_${linkId}`;
+
+			// building linkset
+			let text = el.innerText;
+			this.linkSet.quick.push(text);
+			this.linkSet.complete.push(new LinkItem(text, linkId, el.dataset["url"]));
+
+			linkId++;
+		}
+
+		console.log(this.linkSet);
 	},
 
 	commitToStorage(event, settingsObj = null) {
