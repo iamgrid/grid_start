@@ -109,20 +109,28 @@ const gStartBase = {
 			}
 
 			this.liveSearch.focusedResult = 0;
+			const newResultSetByNameStart = [];
 			const newResultSetByName = [];
 			const newResultSetByUrl = [];
 
 			const regex = new RegExp(currentSearch, "i");
 
 			this.liveSearch.linkSet.forEach((el, ix) => {
-				if (el.text.search(regex) >= 0) {
+				const textMatch = el.text.search(regex);
+				if (textMatch === 0) {
+					newResultSetByNameStart.push(ix);
+					return;
+				}
+				if (textMatch > 0) {
 					newResultSetByName.push(ix);
 					return;
 				}
 				if (el.url.search(regex) >= 0) newResultSetByUrl.push(ix);
 			});
 
-			const newResultSet = newResultSetByName.concat(newResultSetByUrl);
+			const newResultSet = newResultSetByNameStart
+				.concat(newResultSetByName)
+				.concat(newResultSetByUrl);
 
 			this.liveSearch.searchResults = [...newResultSet];
 
