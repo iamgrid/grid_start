@@ -109,14 +109,20 @@ const gStartBase = {
 			}
 
 			this.liveSearch.focusedResult = 0;
-			const newResultSet = [];
+			const newResultSetByName = [];
+			const newResultSetByUrl = [];
 
 			const regex = new RegExp(currentSearch, "i");
 
 			this.liveSearch.linkSet.forEach((el, ix) => {
-				if (el.text.search(regex) >= 0 || el.url.search(regex) >= 0)
-					newResultSet.push(ix);
+				if (el.text.search(regex) >= 0) {
+					newResultSetByName.push(ix);
+					return;
+				}
+				if (el.url.search(regex) >= 0) newResultSetByUrl.push(ix);
 			});
+
+			const newResultSet = newResultSetByName.concat(newResultSetByUrl);
 
 			this.liveSearch.searchResults = [...newResultSet];
 
@@ -126,20 +132,14 @@ const gStartBase = {
 				const text = this.liveSearch.linkSet[el].text;
 				const url = this.liveSearch.linkSet[el].url;
 
-				const matchStart = text.toLowerCase().indexOf(currentSearch);
-				const matchEnd = matchStart + currentSearch.length;
-
-				const showText = `${text.substring(
-					0,
-					matchStart
-				)}<span>${text.substring(matchStart, matchEnd)}</span>${text.substring(
-					matchEnd
-				)}`;
+				const showText = this.highlightPhrase(text, currentSearch);
+				const showUrl = this.highlightPhrase(url, currentSearch);
 
 				return `<a id="qsr_${ix}" class="quick-search__result${
 					ix === 0 ? " quick-search__result--focused" : ""
 				}" data-url="${url}">
-						<span class="quick-search__result-name">${showText}</span><br>${url}
+						<div class="quick-search__result-name">${showText}</div>
+						<div class="quick-search__result-url">${showUrl}</div>
 					</a>`;
 			});
 
@@ -151,6 +151,21 @@ const gStartBase = {
 				document.getElementById("qsr_" + ix).onclick = gStartBase.open;
 			});
 		}
+	},
+
+	highlightPhrase(text, searchPhrase) {
+		let re = text;
+		const matchStart = text.toLowerCase().indexOf(searchPhrase);
+		if (matchStart > -1) {
+			const matchEnd = matchStart + searchPhrase.length;
+
+			re = `${text.substring(0, matchStart)}<span>${text.substring(
+				matchStart,
+				matchEnd
+			)}</span>${text.substring(matchEnd)}`;
+		}
+
+		return re;
 	},
 
 	resultCursor(newFocus) {

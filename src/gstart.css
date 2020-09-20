@@ -241,8 +241,7 @@ body {
 	border-top: 1px solid var(--separator-color);
 	transition: color 0.25s ease-in-out;
 	font-size: 0.6em;
-	padding: 0.7em 1em;
-	line-height: 2em;
+	padding: 0.9em 1em;
 	cursor: pointer;
 }
 
@@ -250,11 +249,17 @@ body {
 	border-top: 0;
 }
 
-.quick-search__result-name {
-	font-size: 1.6em;
+.quick-search__result-name,
+.quick-search__result-url {
+	display: block;
 }
 
-.quick-search__result-name span {
+.quick-search__result-name {
+	font-size: 1.6em;
+	padding-bottom: 0.5em;
+}
+
+.quick-search__result span {
 	color: var(--background-color-1);
 	background-color: var(--link-text-color);
 }
