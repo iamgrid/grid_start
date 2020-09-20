@@ -51,14 +51,11 @@ const gStartBase = {
 			.querySelectorAll(".links__link");
 
 		class LinkItem {
-			constructor(text, id, url) {
+			constructor(text, url) {
 				this.text = text;
-				this.id = id;
 				this.url = url;
 			}
 		}
-
-		let linkId = 0;
 
 		for (const el of elementList) {
 			// attaching click handlers and element ids
@@ -66,11 +63,7 @@ const gStartBase = {
 
 			// building linkset
 			let text = el.innerText;
-			this.liveSearch.linkSet.push(
-				new LinkItem(text, linkId, el.dataset["url"])
-			);
-
-			linkId++;
+			this.liveSearch.linkSet.push(new LinkItem(text, el.dataset["url"]));
 		}
 
 		document
@@ -121,7 +114,8 @@ const gStartBase = {
 			const regex = new RegExp(currentSearch, "i");
 
 			this.liveSearch.linkSet.forEach((el, ix) => {
-				if (el.text.search(regex) >= 0) newResultSet.push(ix);
+				if (el.text.search(regex) >= 0 || el.url.search(regex) >= 0)
+					newResultSet.push(ix);
 			});
 
 			this.liveSearch.searchResults = [...newResultSet];
