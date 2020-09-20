@@ -1,12 +1,12 @@
 import { defaultSettings } from "./base/defaultSettings";
 import { wallpapers } from "./base/wallpapers";
+import { liveSearch } from "./base/liveSearch";
 
 const gStartBase = {
 	settings: {},
 	target: "_blank",
 	settingsPanelOpen: false,
 	settingsOpenedBefore: false,
-	liveSearch: { linkSet: [], searchResults: [], focusedResult: 0 },
 
 	open(event) {
 		const url =
@@ -19,7 +19,7 @@ const gStartBase = {
 
 		if (window.location.hash == "#self") this.target = "_self";
 
-		this.buildLinkSet();
+		liveSearch.buildLinkSet();
 
 		let storedSettings = localStorage.getItem("gStartSettings");
 
@@ -43,149 +43,6 @@ const gStartBase = {
 		// document.getElementById("quicksearch").focus();
 
 		setTimeout(gStartBase.enableCSSTransitions, 300);
-	},
-
-	buildLinkSet() {
-		const elementList = document
-			.getElementById("links")
-			.querySelectorAll(".links__link");
-
-		class LinkItem {
-			constructor(text, url) {
-				this.text = text;
-				this.url = url;
-			}
-		}
-
-		for (const el of elementList) {
-			// attaching click handlers and element ids
-			el.onclick = gStartBase.open;
-
-			// building linkset
-			let text = el.innerText;
-			this.liveSearch.linkSet.push(new LinkItem(text, el.dataset["url"]));
-		}
-
-		document
-			.getElementById("quicksearch")
-			.addEventListener("keyup", gStartBase.doLiveSearch.bind(this));
-	},
-
-	doLiveSearch(event) {
-		event.preventDefault();
-		const currentSearch = event.target.value;
-
-		if (event.keyCode === 27) {
-			// escape key
-			event.target.value = "";
-			document.getElementById("quicksearchresults").style.visibility = "hidden";
-		} else if (event.keyCode === 13) {
-			// enter key
-			if (this.liveSearch.searchResults.length < 1) return;
-
-			const linkId = this.liveSearch.searchResults[
-				this.liveSearch.focusedResult
-			];
-			window.open(this.liveSearch.linkSet[linkId].url, gStartBase.target);
-		} else if (event.keyCode === 38) {
-			// up key
-			document.getElementById("quicksearch").setSelectionRange(100, 100);
-
-			const focused = gStartBase.liveSearch.focusedResult;
-			if (focused === 0) return;
-			this.resultCursor(focused - 1);
-		} else if (event.keyCode === 40) {
-			// down key
-			const focused = gStartBase.liveSearch.focusedResult;
-			if (focused > this.liveSearch.searchResults.length - 2) return;
-			this.resultCursor(focused + 1);
-		} else {
-			if (currentSearch.length < 2) {
-				this.liveSearch.searchResults = [];
-				document.getElementById("quicksearchresults").innerHTML = "";
-				document.getElementById("quicksearchresults").style.visibility =
-					"hidden";
-				return;
-			}
-
-			this.liveSearch.focusedResult = 0;
-			const newResultSetByNameStart = [];
-			const newResultSetByName = [];
-			const newResultSetByUrl = [];
-
-			const regex = new RegExp(currentSearch, "i");
-
-			this.liveSearch.linkSet.forEach((el, ix) => {
-				const textMatch = el.text.search(regex);
-				if (textMatch === 0) {
-					newResultSetByNameStart.push(ix);
-					return;
-				}
-				if (textMatch > 0) {
-					newResultSetByName.push(ix);
-					return;
-				}
-				if (el.url.search(regex) >= 0) newResultSetByUrl.push(ix);
-			});
-
-			const newResultSet = newResultSetByNameStart
-				.concat(newResultSetByName)
-				.concat(newResultSetByUrl);
-
-			this.liveSearch.searchResults = [...newResultSet];
-
-			document.getElementById("quicksearchresults").style.visibility =
-				"visible";
-			let resultDisplay = newResultSet.map((el, ix) => {
-				const text = this.liveSearch.linkSet[el].text;
-				const url = this.liveSearch.linkSet[el].url;
-
-				const showText = this.highlightPhrase(text, currentSearch);
-				const showUrl = this.highlightPhrase(url, currentSearch);
-
-				return `<a id="qsr_${ix}" class="quick-search__result${
-					ix === 0 ? " quick-search__result--focused" : ""
-				}" data-url="${url}">
-						<div class="quick-search__result-name">${showText}</div>
-						<div class="quick-search__result-url">${showUrl}</div>
-					</a>`;
-			});
-
-			document.getElementById(
-				"quicksearchresults"
-			).innerHTML = resultDisplay.join("");
-
-			newResultSet.forEach((_, ix) => {
-				document.getElementById("qsr_" + ix).onclick = gStartBase.open;
-			});
-		}
-	},
-
-	highlightPhrase(text, searchPhrase) {
-		let re = text;
-		const matchStart = text.toLowerCase().indexOf(searchPhrase);
-		if (matchStart > -1) {
-			const matchEnd = matchStart + searchPhrase.length;
-
-			re = `${text.substring(0, matchStart)}<span>${text.substring(
-				matchStart,
-				matchEnd
-			)}</span>${text.substring(matchEnd)}`;
-		}
-
-		return re;
-	},
-
-	resultCursor(newFocus) {
-		const focused = gStartBase.liveSearch.focusedResult;
-		document
-			.getElementById("qsr_" + focused)
-			.classList.remove("quick-search__result--focused");
-
-		gStartBase.liveSearch.focusedResult = newFocus;
-		document
-			.getElementById("qsr_" + newFocus)
-			.classList.add("quick-search__result--focused");
 	},
 
 	commitToStorage(event, settingsObj = null) {
