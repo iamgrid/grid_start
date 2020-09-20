@@ -2,6 +2,10 @@ export const liveSearch = {
 	linkSet: [],
 	searchResults: [],
 	focusedResult: 0,
+	domNodes: {
+		searchField: document.getElementById("quicksearch"),
+		resultsDiv: document.getElementById("quicksearchresults"),
+	},
 
 	buildLinkSet() {
 		const elementList = document
@@ -24,9 +28,10 @@ export const liveSearch = {
 			this.linkSet.push(new LinkItem(text, el.dataset["url"]));
 		}
 
-		document
-			.getElementById("quicksearch")
-			.addEventListener("keyup", liveSearch.doLiveSearch.bind(this));
+		this.domNodes.searchField.addEventListener(
+			"keyup",
+			liveSearch.doLiveSearch.bind(this)
+		);
 	},
 
 	doLiveSearch(event) {
@@ -38,8 +43,7 @@ export const liveSearch = {
 			case 27:
 				// escape key
 				event.target.value = "";
-				document.getElementById("quicksearchresults").style.visibility =
-					"hidden";
+				this.domNodes.resultsDiv.style.visibility = "hidden";
 				break;
 			case 13:
 				// enter key
@@ -50,7 +54,7 @@ export const liveSearch = {
 				break;
 			case 38:
 				// up key
-				document.getElementById("quicksearch").setSelectionRange(100, 100);
+				this.domNodes.searchField.setSelectionRange(100, 100);
 
 				if (focused === 0) return;
 				this.resultCursor(focused - 1);
@@ -63,9 +67,8 @@ export const liveSearch = {
 			default:
 				if (searchPhrase.length < 2) {
 					this.searchResults = [];
-					document.getElementById("quicksearchresults").innerHTML = "";
-					document.getElementById("quicksearchresults").style.visibility =
-						"hidden";
+					this.domNodes.resultsDiv.innerHTML = "";
+					this.domNodes.resultsDiv.style.visibility = "hidden";
 					return;
 				}
 
@@ -80,8 +83,7 @@ export const liveSearch = {
 					"quicksearchresults"
 				).innerHTML = resultDisplay.join("");
 
-				document.getElementById("quicksearchresults").style.visibility =
-					"visible";
+				this.domNodes.resultsDiv.style.visibility = "visible";
 
 				newResultSet.forEach((_, ix) => {
 					document.getElementById("qsr_" + ix).onclick = gStartBase.open;
