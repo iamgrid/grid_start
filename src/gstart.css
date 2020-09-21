@@ -258,6 +258,14 @@ body {
 	display: block;
 }
 
+.quick-search__result-url {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-ms-word-break: break-all;
+	word-break: break-all;
+	word-break: break-word;
+}
+
 .quick-search__result-name {
 	font-size: 1.6em;
 	padding-bottom: 0.5em;
