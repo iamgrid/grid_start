@@ -235,6 +235,10 @@ body {
 	visibility: hidden;
 }
 
+.quick-search__results--has-collapsed-hits {
+	border-radius: 0 0 5px 5px;
+}
+
 .quick-search__result {
 	display: block;
 	color: var(--link-text-color);
@@ -271,6 +275,16 @@ body {
 .quick-search__result--focused {
 	background-color: var(--link-background-hl);
 	color: var(--link-text-color-hl);
+}
+
+.quick-search__collapsed-results {
+	border-top: 1px solid var(--separator-color);
+	color: var(--subtitle-text-color);
+	text-align: center;
+	font-size: 0.7em;
+	padding: 0.7em 1em;
+	background-color: var(--background-color-2);
+	border-radius: 0 0 5px 5px;
 }
 
 /* LINKS */

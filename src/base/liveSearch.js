@@ -1,6 +1,7 @@
 export const liveSearch = {
 	linkSet: [],
 	searchResults: [],
+	maxResults: 8,
 	focusedResult: 0,
 	domNodes: {
 		searchField: document.getElementById("quicksearch"),
@@ -72,16 +73,26 @@ export const liveSearch = {
 					return;
 				}
 
-				const { newResultSet, resultDisplay } = this.createResultSet(
-					searchPhrase
-				);
+				const {
+					newResultSet,
+					resultDisplay,
+					hasCollapsedResults,
+				} = this.createResultSet(searchPhrase);
 
 				this.focusedResult = 0;
 				this.searchResults = [...newResultSet];
 
-				document.getElementById(
-					"quicksearchresults"
-				).innerHTML = resultDisplay.join("");
+				this.domNodes.resultsDiv.innerHTML = resultDisplay.join("");
+
+				if (hasCollapsedResults) {
+					this.domNodes.resultsDiv.classList.add(
+						"quick-search__results--has-collapsed-hits"
+					);
+				} else {
+					this.domNodes.resultsDiv.classList.remove(
+						"quick-search__results--has-collapsed-hits"
+					);
+				}
 
 				this.domNodes.resultsDiv.style.visibility = "visible";
 
@@ -113,9 +124,15 @@ export const liveSearch = {
 			if (el.url.search(regex) >= 0) newResultSetByUrl.push(ix);
 		});
 
-		const newResultSet = newResultSetByNameStart
+		let newResultSet = newResultSetByNameStart
 			.concat(newResultSetByName)
 			.concat(newResultSetByUrl);
+
+		let collapsedResults = 0;
+		if (newResultSet.length > this.maxResults) {
+			collapsedResults = newResultSet.length - this.maxResults;
+			newResultSet = newResultSet.slice(0, this.maxResults);
+		}
 
 		let resultDisplay = newResultSet.map((el, ix) => {
 			const text = this.linkSet[el].text;
@@ -132,7 +149,16 @@ export const liveSearch = {
 				</a>`;
 		});
 
-		return { newResultSet, resultDisplay };
+		let hasCollapsedResults = false;
+
+		if (collapsedResults > 0) {
+			hasCollapsedResults = true;
+			resultDisplay.push(
+				`<div class="quick-search__collapsed-results">+ ${collapsedResults} hidden hits</div>`
+			);
+		}
+
+		return { newResultSet, resultDisplay, hasCollapsedResults };
 	},
 
 	highlightPhrase(text, searchPhrase) {
