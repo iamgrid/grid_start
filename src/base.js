@@ -12,6 +12,7 @@ const gStartBase = {
 		const url =
 			event.target.dataset["url"] || event.currentTarget.dataset["url"];
 		window.open(url, gStartBase.target);
+		document.getElementById("quicksearch").focus();
 	},
 
 	init() {
@@ -40,7 +41,8 @@ const gStartBase = {
 		// console.log(this.settings);
 
 		document.getElementById("quicksearch").value = "";
-		// document.getElementById("quicksearch").focus();
+		if (window.location.hash != "#self")
+			document.getElementById("quicksearch").focus();
 
 		setTimeout(gStartBase.enableCSSTransitions, 300);
 	},
