@@ -5,6 +5,7 @@ export const liveSearch = {
 	focusedResult: 0,
 	domNodes: {
 		searchField: document.getElementById("quicksearch"),
+		clearButton: document.getElementById("quicksearchclear"),
 		resultsDiv: document.getElementById("quicksearchresults"),
 	},
 
@@ -38,6 +39,8 @@ export const liveSearch = {
 			"keyup",
 			liveSearch.doLiveSearch.bind(this)
 		);
+
+		this.domNodes.clearButton.onclick = this.clearSearchField.bind(this);
 	},
 
 	doLiveSearch(event) {
@@ -48,8 +51,7 @@ export const liveSearch = {
 		switch (event.keyCode) {
 			case 27:
 				// escape key
-				event.target.value = "";
-				this.domNodes.resultsDiv.style.visibility = "hidden";
+				this.clearSearchField.bind(this)();
 				break;
 			case 13:
 				// enter key
@@ -72,11 +74,11 @@ export const liveSearch = {
 				break;
 			default:
 				if (searchPhrase.length < 1) {
-					this.searchResults = [];
-					this.domNodes.resultsDiv.innerHTML = "";
-					this.domNodes.resultsDiv.style.visibility = "hidden";
+					this.clearSearchField.bind(this)();
 					return;
 				}
+
+				this.domNodes.clearButton.style.visibility = "visible";
 
 				const {
 					newResultSet,
@@ -107,6 +109,15 @@ export const liveSearch = {
 
 				break;
 		}
+	},
+
+	clearSearchField() {
+		this.domNodes.searchField.value = "";
+		this.searchResults = [];
+		this.domNodes.resultsDiv.innerHTML = "";
+		this.domNodes.resultsDiv.style.visibility = "hidden";
+		this.domNodes.clearButton.style.visibility = "hidden";
+		this.domNodes.searchField.focus();
 	},
 
 	createResultSet(searchPhrase) {

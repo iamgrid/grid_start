@@ -225,6 +225,24 @@ body {
 	border-bottom: 1px solid var(--separator-color-hl);
 }
 
+.quick-search__clear-button {
+	box-sizing: border-box;
+	background: none;
+	border: 0;
+	margin: 0;
+	padding: 0.25em 0.8em;
+	cursor: pointer;
+	position: absolute;
+	right: 0;
+	top: 0;
+	transform: translate(-7px, 8px);
+	visibility: hidden;
+}
+
+.quick-search__clear-button-icon path {
+	stroke: var(--separator-color-hl);
+}
+
 .quick-search__results {
 	position: absolute;
 	/* border: 1px solid var(--separator-color); */
