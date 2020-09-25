@@ -14,11 +14,14 @@ export const liveSearch = {
 			.querySelectorAll(".links__link");
 
 		class LinkItem {
-			constructor(text, url) {
+			constructor(text, url, searchableUrl) {
 				this.text = text;
 				this.url = url;
+				this.searchableUrl = searchableUrl;
 			}
 		}
+
+		const sURegex = new RegExp(/(https?:\/\/|www\.|the)/, "gi");
 
 		for (const el of elementList) {
 			// attaching click handlers and element ids
@@ -26,7 +29,9 @@ export const liveSearch = {
 
 			// building linkset
 			let text = el.innerText;
-			this.linkSet.push(new LinkItem(text, el.dataset["url"]));
+			let url = el.dataset["url"];
+			let searchableUrl = url.replace(sURegex, "");
+			this.linkSet.push(new LinkItem(text, url, searchableUrl));
 		}
 
 		this.domNodes.searchField.addEventListener(
@@ -66,7 +71,7 @@ export const liveSearch = {
 				this.resultCursor(focused + 1);
 				break;
 			default:
-				if (searchPhrase.length < 2) {
+				if (searchPhrase.length < 1) {
 					this.searchResults = [];
 					this.domNodes.resultsDiv.innerHTML = "";
 					this.domNodes.resultsDiv.style.visibility = "hidden";
@@ -107,25 +112,39 @@ export const liveSearch = {
 	createResultSet(searchPhrase) {
 		const newResultSetByNameStart = [];
 		const newResultSetByName = [];
+		const newResultSetByUrlStart = [];
 		const newResultSetByUrl = [];
 
 		const regex = new RegExp(searchPhrase, "i");
 
 		this.linkSet.forEach((el, ix) => {
 			const textMatch = el.text.search(regex);
+			const urlMatch = el.searchableUrl.search(regex);
+
 			if (textMatch === 0) {
 				newResultSetByNameStart.push(ix);
 				return;
 			}
-			if (textMatch > 0) {
-				newResultSetByName.push(ix);
+
+			if (urlMatch === 0) {
+				newResultSetByUrlStart.push(ix);
 				return;
 			}
-			if (el.url.search(regex) >= 0) newResultSetByUrl.push(ix);
+
+			if (searchPhrase.length > 1) {
+				// when we only get a searchPhrase of length 1 we won't
+				// return matches from inside strings
+				if (textMatch > 0) {
+					newResultSetByName.push(ix);
+					return;
+				}
+				if (urlMatch > 0) newResultSetByUrl.push(ix);
+			}
 		});
 
 		let newResultSet = newResultSetByNameStart
 			.concat(newResultSetByName)
+			.concat(newResultSetByUrlStart)
 			.concat(newResultSetByUrl);
 
 		let collapsedResults = 0;
