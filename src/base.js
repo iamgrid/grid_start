@@ -11,8 +11,11 @@ const gStartBase = {
 	open(event) {
 		const url =
 			event.target.dataset["url"] || event.currentTarget.dataset["url"];
+
 		window.open(url, gStartBase.target);
-		document.getElementById("quicksearch").focus();
+
+		if (event.target.className !== "links__link")
+			document.getElementById("quicksearch").focus();
 	},
 
 	init() {
@@ -41,6 +44,7 @@ const gStartBase = {
 		// console.log(this.settings);
 
 		document.getElementById("quicksearch").value = "";
+
 		if (window.location.hash != "#self")
 			document.getElementById("quicksearch").focus();
 
@@ -197,6 +201,7 @@ const gStartBase = {
 			document
 				.getElementById("saveAsButton")
 				.classList.remove("disable-element-animation");
+			document.getElementById("quicksearch").focus();
 		}
 	},
 
