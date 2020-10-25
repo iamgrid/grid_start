@@ -112,6 +112,7 @@ export const themeManager = {
 
 		document.getElementById("save-as-form").style.display = "none";
 		document.getElementById("save-as-form__name-input").value = "";
+		document.getElementById("saveAsButton").classList.remove("ibutton--active");
 	},
 
 	deleteTheme() {
