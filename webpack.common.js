@@ -5,30 +5,32 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
 	entry: {
-		app: "./src/index.js"
+		app: "./src/index.js",
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: "./src/index.template.html",
-			title: "grid.start"
+			title: "grid.start",
 		}),
-		new CopyPlugin([
-			{ from: "src/wallpapers", to: "wallpapers" },
-			{ from: "src/export_json.php", to: "export_json.php" }
-		]),
+		new CopyPlugin({
+			patterns: [
+				{ from: "src/wallpapers", to: "wallpapers" },
+				{ from: "src/export_json.php", to: "export_json.php" },
+			],
+		}),
 		new MiniCssExtractPlugin({
-			filename: "[name].[contenthash].css"
-		})
+			filename: "[name].[contenthash].css",
+		}),
 	],
 	output: {
-		hashDigestLength: 8
+		hashDigestLength: 8,
 	},
 	module: {
 		rules: [
 			{
 				test: /\.css$/i,
-				use: [MiniCssExtractPlugin.loader, "css-loader"]
-			}
-		]
-	}
+				use: [MiniCssExtractPlugin.loader, "css-loader"],
+			},
+		],
+	},
 };
