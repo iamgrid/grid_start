@@ -48,6 +48,20 @@ const gStartBase = {
 		if (window.location.hash != "#self")
 			document.getElementById("quicksearch").focus();
 
+		const elementList = document
+			.getElementById("links")
+			.querySelectorAll(".links__link");
+
+		const userIsUsingFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+
+		// console.log({userIsUsingFirefox});
+
+		for (const el of elementList) {
+			if (typeof el.dataset["hide_for_firefox"] !== "undefined" && el.dataset["hide_for_firefox"] === "true" && userIsUsingFirefox) {
+				el.style.display = "none";
+			}
+		}
+
 		setTimeout(gStartBase.enableCSSTransitions, 300);
 	},
 
