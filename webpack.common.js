@@ -10,7 +10,7 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: "./src/index.template.html",
-			title: "grid.start",
+			title: "i.am.grid &middot; Start",
 		}),
 		new CopyPlugin({
 			patterns: [
