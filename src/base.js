@@ -53,11 +53,15 @@ const gStartBase = {
 			.querySelectorAll(".links__link");
 
 		const userIsUsingFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+		const userIsUsingChrome = navigator.userAgent.toLowerCase().includes('chrome');
 
 		// console.log({userIsUsingFirefox});
 
 		for (const el of elementList) {
 			if (typeof el.dataset["hide_for_firefox"] !== "undefined" && el.dataset["hide_for_firefox"] === "true" && userIsUsingFirefox) {
+				el.style.display = "none";
+			}
+			if (typeof el.dataset["hide_for_chrome"] !== "undefined" && el.dataset["hide_for_chrome"] === "true" && userIsUsingChrome) {
 				el.style.display = "none";
 			}
 		}
