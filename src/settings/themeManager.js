@@ -83,7 +83,7 @@ export const themeManager = {
 		}
 	},
 
-	saveThemeAsActual() {
+	saveThemeAsProper() {
 		const newThemeName = document.getElementById("save-as-form__name-input")
 			.value;
 

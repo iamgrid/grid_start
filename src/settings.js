@@ -8,7 +8,7 @@ const gStartSettings = {
 		const key = event.keyCode || event.which;
 		if (key === 13) {
 			if (event.target.id === "save-as-form__name-input") {
-				themeManager.saveThemeAsActual();
+				themeManager.saveThemeAsProper();
 			}
 		}
 	},
@@ -139,7 +139,7 @@ const gStartSettings = {
 		re.push(
 			`<div class='save-as-form' id='save-as-form'><div class='save-as-form__inner'>
 				<input type='text' id='save-as-form__name-input' name='save-as-form__name-input' class='save-as-form__name-input' placeholder='New theme name...' />
-				<a class='ibutton ibutton--preferred' id='saveThemeAsActualButton'>Save</a>
+				<a class='ibutton ibutton--preferred' id='saveThemeAsProperButton'>Save</a>
 				<a class='ibutton' id='cancelSaveThemeAsButton'>Cancel</a>
 			</div></div>\n`
 		);
@@ -164,8 +164,8 @@ const gStartSettings = {
 		document.getElementById(
 			"save-as-form__name-input"
 		).onkeyup = this.catchEnter;
-		document.getElementById("saveThemeAsActualButton").onclick =
-			themeManager.saveThemeAsActual;
+		document.getElementById("saveThemeAsProperButton").onclick =
+			themeManager.saveThemeAsProper;
 		document.getElementById("cancelSaveThemeAsButton").onclick =
 			themeManager.cancelSaveThemeAs;
 
