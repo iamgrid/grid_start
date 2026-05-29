@@ -8,7 +8,7 @@ on:
       - "src/**"
       - "package.json"
       - "package-lock.json"
-  # "workflow_dispatch:" below adds the "Run workflow" button in the Actions tab on github.com
+  # "workflow_dispatch:" adds the "Run workflow" button to grid_start > Actions > "Build and Deploy" on github.com
   workflow_dispatch:
 
 jobs:
