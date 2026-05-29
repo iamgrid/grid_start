@@ -33,7 +33,7 @@ jobs:
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: iamgrid.co.uk
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
