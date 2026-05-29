@@ -8,6 +8,7 @@ on:
       - "src/**"
       - "package.json"
       - "package-lock.json"
+  # "workflow_dispatch:" below adds the "Run workflow" button in the Actions tab on github.com
   workflow_dispatch:
 
 jobs:
