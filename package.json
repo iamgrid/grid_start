@@ -26,5 +26,8 @@
 	"dependencies": {
 		"uuid": "^14.0.0",
 		"vanilla-picker": "^2.12.3"
+	},
+	"overrides": {
+		"lodash": "4.18.1"
 	}
 }
