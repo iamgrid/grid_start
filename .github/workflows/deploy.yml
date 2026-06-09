@@ -32,15 +32,33 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+      # - name: Deploy via FTP
+      #   uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+      #   with:
+      #     server: ftp.iamgrid.co.uk
+      #     username: ${{ secrets.FTP_USERNAME }}
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     protocol: ftp
+      #     port: 21
+      #     # security: strict
+      #     # log-level: verbose
+      #     local-dir: ./dist/
+      #     server-dir: /public_html/grid_start/
+
+      - name: Attempt to Deploy via FTP, Retry Twice (set via attempt_limit)
+        uses: Wandalen/wretry.action@master
         with:
-          server: ftp.iamgrid.co.uk
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          # security: strict
-          # log-level: verbose
-          local-dir: ./dist/
-          server-dir: /public_html/grid_start/
+          action: SamKirkland/FTP-Deploy-Action@v4.4.0
+          with: |
+            server: ftp.iamgrid.co.uk
+            username: ${{ secrets.FTP_USERNAME }}
+            password: ${{ secrets.FTP_PASSWORD }}
+            protocol: ftp
+            port: 21
+            # security: strict
+            # log-level: verbose
+            local-dir: ./dist/
+            server-dir: /public_html/grid_start/
+          attempt_limit: 2
+          # attempt_delay is set in milliseconds
+          attempt_delay: 2000
